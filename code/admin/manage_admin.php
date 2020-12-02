@@ -48,7 +48,8 @@ if (isset($_POST['submit_create_admin'])) {
                                         <i class="fa fa-envelope"></i>
                                     </div>
                                     <input type="email" id="adminemail" name="admin_email" placeholder="Email" class="form-control">
-                                    <small style="color: red;">
+                                </div>
+                                <small style="color: red;">
                                         <?php
                                         if (isset($repeated_email) && $repeated_email != "") {
                                             echo ($repeated_email);
@@ -56,7 +57,6 @@ if (isset($_POST['submit_create_admin'])) {
                                         }
                                         ?>
                                     </small>
-                                </div>
                             </div>
                             <div class="form-group">
                                 <div class="input-group">

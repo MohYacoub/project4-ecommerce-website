@@ -1,8 +1,6 @@
-<?php
-include_once 'partials/header_admin.php';
-include('partials/connection.php');
-?>
+<?php include('partials/connection.php'); ?>
 <!-- MAIN CONTENT-->
+<?php include_once 'partials/header_admin.php'; ?>
 <div class="main-content">
     <div class="section__content section__content--p30">
         <div class="container-fluid">
@@ -29,9 +27,9 @@ include('partials/connection.php');
                                 <tbody>
                                 <?php
                                 $query  = "SELECT * FROM orders";
-                                $result = mysqli_query($connection,$query);
+                                $result = mysqli_query($conn,$query);
                                 $query1 = "SELECT * FROM order_details";
-                                $result1 = mysqli_query($connection,$query1);
+                                $result1 = mysqli_query($conn,$query1);
                                 while($row = mysqli_fetch_assoc($result)){
                                     echo "<tr>";
                                         echo "<td>{$row['order_id']}</td>";

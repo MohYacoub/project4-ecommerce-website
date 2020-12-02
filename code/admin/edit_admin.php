@@ -56,7 +56,8 @@ if (isset($_POST['submit_edit_admin'])) {
                                         <i class="fa fa-envelope"></i>
                                     </div>
                                     <input type="email" id="adminemail" name="admin_email" placeholder="Email" class="form-control" value="<?php echo $row['admin_email'] ?>">
-                                    <small style="color: red;">
+                                </div>
+                                <small style="color: red;">
                                         <?php
                                         if (isset($repeated_email) && $repeated_email != "") {
                                             echo ($repeated_email);
@@ -64,7 +65,6 @@ if (isset($_POST['submit_edit_admin'])) {
                                         }
                                         ?>
                                     </small>
-                                </div>
                             </div>
                             <div class="form-group">
                                 <div class="input-group">
@@ -77,7 +77,7 @@ if (isset($_POST['submit_edit_admin'])) {
 
                             <div>
 
-                                <button id=" payment-button" type="submit" class="btn btn-lg btn-success btn-block" name="submit_create_admin">
+                                <button id=" payment-button" type="submit" class="btn btn-lg btn-success btn-block" name="submit_edit_admin">
                                     <span id="payment-button-amount">Updata</span>
                                 </button>
                             </div>

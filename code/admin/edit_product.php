@@ -5,7 +5,7 @@ include('partials/connection.php');
 <?php
 $id = $_GET['id'];
 $query = "select * from products where pro_id = {$_GET['id']}";
-$result = mysqli_query($connection, $query);
+$result = mysqli_query($conn, $query);
 $row   = mysqli_fetch_assoc($result);
 if (isset($_POST['submit'])) {
     // get image data
@@ -38,7 +38,7 @@ if (isset($_POST['submit'])) {
                               cat_id          =  '$cat_id'
 WHERE pro_id = {$_GET['id']}";
 
-    $result = mysqli_query($connection, $query);
+    $result = mysqli_query($conn, $query);
     header('location:manage_products.php');
 }
 include_once 'partials/header_admin.php';
