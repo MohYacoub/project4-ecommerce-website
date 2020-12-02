@@ -1,6 +1,4 @@
-<?php
-include('partials/connection.php');
-?>
+<?php include_once 'partials/connection.php'; ?>
 
 <?php
 if (isset($_POST['submit'])) {
@@ -28,7 +26,7 @@ if (isset($_POST['submit'])) {
         $query = "INSERT INTO products(pro_name,pro_description,pro_image,pro_price,special_price,pro_tags,cat_id) 
               VALUES ('$pro_name','$pro_desc','$pro_image','$pro_price','$pro_special_price','$pro_tags','$cat_id')";
 
-        $result = mysqli_query($connection, $query);
+        $result = mysqli_query($conn, $query);
     }
 }
 ?>
@@ -127,64 +125,63 @@ if (isset($_POST['submit'])) {
                             </div>
 
                         </div>
-
-
-
                     </div>
+                    <div class="row m-t-30">
+                        <div class="col-md-12">
+                            <!-- DATA TABLE-->
+                            <div class="table-responsive m-b-40">
+                                <div class="card-header text-center bg-light"><strong>Products Table</strong></div>
+                                <table class="table table-borderless table-data3">
+                                    <thead class="bg-info">
+                                        <tr>
+                                            <th>ID</th>
+                                            <!-- <th>Created at</th> -->
+                                            <!-- <th>Updated at</th> -->
+                                            <th>Name</th>
+                                            <th>Description</th>
+                                            <th>Image</th>
+                                            <th>Price</th>
+                                            <th>Speacial Price</th>
+                                            <th>Tags</th>
+                                            <th>Category</th>
+                                            <th>Edit</th>
+                                            <th>Delete</th>
 
-                    <!-- DATA TABLE-->
-                    <div class="table-responsive m-b-40">
-                        <div class="card-header text-center bg-light"><strong>Products Table</strong></div>
-                        <table class="table table-borderless table-data3">
-                            <thead class="bg-info">
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Created at</th>
-                                    <!-- <th>Updated at</th> -->
-                                    <th>Name</th>
-                                    <th>Description</th>
-                                    <th>Image</th>
-                                    <th>Price</th>
-                                    <th>Speacial Price</th>
-                                    <th>Tags</th>
-                                    <th>Category</th>
-                                    <th>Edit</th>
-                                    <th>Delete</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $query  = "SELECT * FROM products";
+                                        $result = mysqli_query($conn, $query);
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            echo "<tr>";
+                                            echo "<td>{$row['pro_id']}</td>";
+                                            // echo "<td>{$row['created_at']}</td>";
+                                            // echo "<td>{$row['updated_at']}</td>";
+                                            echo "<td>{$row['pro_name']}</td>";
+                                            echo "<td>{$row['pro_description']}</td>";
+                                            echo "<td><img src='{$row['pro_image']}'></td>";
+                                            echo "<td>{$row['pro_price']}</td>";
+                                            echo "<td>{$row['special_price']}</td>";
+                                            echo "<td>{$row['pro_tags']}</td>";
+                                            echo "<td>{$row['cat_id']}</td>";
+                                            echo "<td><a href='edit_product.php?id={$row['pro_id']}' class='btn btn-primary'>Edit</a></td>";
+                                            echo "<td><a href='delete_product.php?id={$row['pro_id']}' class='btn btn-danger'>Delete</a></td>";
+                                            echo "</tr>";
+                                        }
+                                        ?>
 
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                $query  = "SELECT * FROM products";
-                                $result = mysqli_query($connection, $query);
-                                while ($row = mysqli_fetch_assoc($result)) {
-                                    echo "<tr>";
-                                    echo "<td>{$row['pro_id']}</td>";
-                                    echo "<td>{$row['created_at']}</td>";
-                                    // echo "<td>{$row['updated_at']}</td>";
-                                    echo "<td>{$row['pro_name']}</td>";
-                                    echo "<td>{$row['pro_description']}</td>";
-                                    echo "<td><img src='{$row['pro_image']}'></td>";
-                                    echo "<td>{$row['pro_price']}</td>";
-                                    echo "<td>{$row['special_price']}</td>";
-                                    echo "<td>{$row['pro_tags']}</td>";
-                                    echo "<td>{$row['cat_id']}</td>";
-                                    echo "<td><a href='edit_product.php?id={$row['pro_id']}' class='btn btn-primary'>Edit</a></td>";
-                                    echo "<td><a href='delete_product.php?id={$row['pro_id']}' class='btn btn-danger'>Delete</a></td>";
-                                    echo "</tr>";
-                                }
-                                ?>
-
-                            </tbody>
-                        </table>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- END DATA TABLE-->
+                            </div>
+                        </div>
                     </div>
-                    <!-- END DATA TABLE-->
                 </div>
             </div>
         </div>
-    </div>
-</div>
-<!-- END MAIN CONTENT-->
-<?php
-include_once 'partials/footer_admin.php';
-?>
+        <!-- END MAIN CONTENT-->
+        <?php
+        include_once 'partials/footer_admin.php';
+        ?>

@@ -90,9 +90,13 @@
             <div class="menu-sidebar__content js-scrollbar1">
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
+                        <!-- <li class="has-sub">
+                            <a class="js-arrow" href="index.php">
+                                <i class="fas fa-tachometer-alt"></i>Dashboard</a>
+                        </li> -->
                         <li class="has-sub">
                             <a class="js-arrow" href="manage_admin.php">
-                                <i class="fas fa-tachometer-alt"></i>Manage Admin</a>
+                                <i class="fas fa-chart-bar"></i>Manage Admin</a>
                         </li>
                         <li>
                             <a href="manage_category.php">
@@ -114,8 +118,8 @@
                             <a href="manage_products.php">
                                 <i class="fas fa-chart-bar"></i>manageProducts</a>
                         </li> -->
-                        
-                        
+
+
                     </ul>
                 </nav>
             </div>
@@ -141,7 +145,7 @@
                                         <i class="zmdi zmdi-comment-more"></i>
                                         <span class="quantity">1</span>
                                         <div class="mess-dropdown js-dropdown"> -->
-                                            <!-- <div class="mess__title">
+                                    <!-- <div class="mess__title">
                                                 <p>You have 2 news message</p>
                                             </div>
                                             <div class="mess__item">
@@ -206,7 +210,7 @@
                                             <div class="email__footer">
                                                 <a href="#">See all emails</a>
                                             </div> -->
-                                        <!-- </div>
+                                    <!-- </div>
                                     </div> -->
                                     <!-- <div class="noti__item js-item-menu">
                                         <i class="zmdi zmdi-notifications"></i>
@@ -250,36 +254,38 @@
                                 </div>
                                 <div class="account-wrap">
                                     <div class="account-item clearfix js-item-menu">
-                                        <div class="image">
+                                        <!-- <div class="image">
                                             <img src="images/icon/avatar-01.jpg" alt="John Doe" />
-                                        </div>
+                                        </div> -->
                                         <div class="content">
-                                            <a class="js-acc-btn" href="#">john doe</a>
+                                            <a class="js-acc-btn" href="#">Welcome #### </a>
                                         </div>
                                         <div class="account-dropdown js-dropdown">
                                             <div class="info clearfix">
-                                                <div class="image">
+                                                <!-- <div class="image">
                                                     <a href="#">
                                                         <img src="images/icon/avatar-01.jpg" alt="John Doe" />
                                                     </a>
-                                                </div>
+                                                </div> -->
                                                 <div class="content">
                                                     <h5 class="name">
-                                                        <a href="#">john doe</a>
+                                                        <a href="#"> #### </a>
                                                     </h5>
-                                                    <span class="email">johndoe@example.com</span>
+                                                    <span class="email"> ####@example.com</span>
                                                 </div>
                                             </div>
                                             <div class="account-dropdown__body">
                                                 <div class="account-dropdown__item">
                                                     <a href="#">
+                                                        <!-- it goes to edit -this admin- page  -->
                                                         <i class="zmdi zmdi-account"></i>Account</a>
                                                 </div>
                                                 <div class="account-dropdown__item">
                                                     <a href="#">
+                                                        <!-- it goes to manage admin page  -->
                                                         <i class="zmdi zmdi-settings"></i>Setting</a>
                                                 </div>
-                                                
+
                                             </div>
                                             <div class="account-dropdown__footer">
                                                 <a href="#">
@@ -294,5 +300,3 @@
                 </div>
             </header>
             <!-- HEADER DESKTOP-->
-            
-          
