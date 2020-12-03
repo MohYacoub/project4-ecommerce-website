@@ -6,7 +6,7 @@ include_once 'partials/connection.php'; ?>
 // make the action when user click on Save Button
 if (isset($_POST['submit_create_category'])) {
 
-    if ((!empty($_POST['cat_name'])) && (!empty($_POST['cat_image']))) {
+    if ((!empty($_POST['cat_name'])) && (!empty($_FILES['cat_image']['name']))) {
 
         // get image data
         $image_name = $_FILES['cat_image']['name'];

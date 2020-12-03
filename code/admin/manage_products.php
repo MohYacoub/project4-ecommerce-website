@@ -3,43 +3,43 @@ session_start();
 include_once 'partials/connection.php'; ?>
 
 <?php
-if (isset($_POST['submit']) ) {
-    if ((!empty($_POST['product']))  && (!empty($_POST['description']))  && (!empty($_POST['tags']))  && (!empty($_POST['price']))  && (!empty($_POST['special_price']))  && (!empty($_POST['category'])) && (!empty($_POST['image']))) {
-    // get image data
-    $image_name = $_FILES['image']['name'];
-    $tmp_name   = $_FILES['image']['tmp_name'];
-    $path       = 'images/product_images/';
-    $pro_image = $path . $image_name;
-    // move image to folder
-    move_uploaded_file($tmp_name, $pro_image);
-
-    $pro_name           = $_POST['product'];
-    $pro_desc           = $_POST['description'];
-    $pro_tags           = $_POST['tags'];
-    $pro_price          = $_POST['price'];
-    $pro_special_price  = $_POST['special_price'];
-    $cat_id             = $_POST['category'];
-
-    if ($image_name) {
+if (isset($_POST['submit'])) {
+    if ((!empty($_POST['product']))  && (!empty($_POST['description']))  && (!empty($_POST['tags']))  && (!empty($_POST['price']))  && (!empty($_POST['special_price']))  && (!empty($_POST['category'])) && (!empty($_FILES['image']['name']))) {
+        // get image data
+        $image_name = $_FILES['image']['name'];
+        $tmp_name   = $_FILES['image']['tmp_name'];
+        $path       = 'images/product_images/';
         $pro_image = $path . $image_name;
-    } else {
-        $pro_image = $row['pro_image'];
-    }
-    $pro_name_query = " SELECT * FROM products WHERE pro_name = '$pro_name' ";
-    $pro_name_query_run = mysqli_query($conn, $pro_name_query);
-    if (mysqli_num_rows($pro_name_query_run) > 0) {
-        $repeated_name = "* Product name already taken, please try another one!";
-    } else {
-        $query = "INSERT INTO products(pro_name,pro_description,pro_image,pro_price,special_price,pro_tags,cat_id) 
+        // move image to folder
+        move_uploaded_file($tmp_name, $pro_image);
+
+        $pro_name           = $_POST['product'];
+        $pro_desc           = $_POST['description'];
+        $pro_tags           = $_POST['tags'];
+        $pro_price          = $_POST['price'];
+        $pro_special_price  = $_POST['special_price'];
+        $cat_id             = $_POST['category'];
+
+        if ($image_name) {
+            $pro_image = $path . $image_name;
+        } else {
+            $pro_image = $row['pro_image'];
+        }
+        $pro_name_query = " SELECT * FROM products WHERE pro_name = '$pro_name' ";
+        $pro_name_query_run = mysqli_query($conn, $pro_name_query);
+        if (mysqli_num_rows($pro_name_query_run) > 0) {
+            $repeated_name = "* Product name already taken, please try another one!";
+        } else {
+            $query = "INSERT INTO products(pro_name,pro_description,pro_image,pro_price,special_price,pro_tags,cat_id) 
               VALUES ('$pro_name','$pro_desc','$pro_image','$pro_price','$pro_special_price','$pro_tags','$cat_id')";
 
-        $result = mysqli_query($conn, $query);
-        // $_SESSION['created_product'] = "The Product added successfully "; // it will not appear becouse uploading the page in header location
+            $result = mysqli_query($conn, $query);
+            // $_SESSION['created_product'] = "The Product added successfully "; // it will not appear becouse uploading the page in header location
+        }
+    } else {
+        $_SESSION['empty_fields'] = 'Please enter all of fields ';
+        // temprorary antil i have some time to be more spacific 
     }
-} else {
-    $_SESSION['empty_fields'] = 'Please enter all of fields ';
-    // temprorary antil i have some time to be more spacific 
-}
 }
 ?>
 <?php
@@ -149,7 +149,16 @@ include_once 'partials/header_admin.php';
                                         </div>
                                         <div class="col-12 col-md-9">
                                             <select name="category" id="select" class="form-control">
-                                                <option value="0"></option>
+                                                <?php
+                                                // if(isset($_POST['submit_Category'])){
+                                                $query  = "select * from categories";
+                                                $result = mysqli_query($conn, $query);
+                                                while ($row = mysqli_fetch_assoc($result)) {
+                                                    $idd = $row['cat_id'];
+                                                    $catname = $row['cat_name'];
+                                                    echo "<option value='$idd'>$catname</option>";
+                                                }
+                                                ?>
                                             </select>
                                         </div>
                                     </div>
