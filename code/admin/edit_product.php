@@ -1,4 +1,5 @@
 <?php
+session_start();
 include('partials/connection.php');
 ?>
 
@@ -8,41 +9,53 @@ $query = "select * from products where pro_id = {$_GET['id']}";
 $result = mysqli_query($conn, $query);
 $row   = mysqli_fetch_assoc($result);
 if (isset($_POST['submit'])) {
-    // get image data
-    $image_name = $_FILES['image']['name'];
-    $tmp_name   = $_FILES['image']['tmp_name'];
-    $path       = 'images/product_images/';
-    $pro_image = $path . $image_name;
-    // move image to folder
-    move_uploaded_file($tmp_name, $pro_image);
-
-    $pro_name           = $_POST['product'];
-    $pro_desc           = $_POST['description'];
-    $pro_tags           = $_POST['tags'];
-    $pro_price          = $_POST['price'];
-    $pro_special_price  = $_POST['special_price'];
-    $cat_id             = $_POST['category'];
-
-    if ($image_name) {
+    if ((!empty($_POST['product']))  && (!empty($_POST['description']))  && (!empty($_POST['tags']))  && (!empty($_POST['price']))  && (!empty($_POST['special_price']))  && (!empty($_POST['category']))) {
+        // get image data
+        $image_name = $_FILES['image']['name'];
+        $tmp_name   = $_FILES['image']['tmp_name'];
+        $path       = 'images/product_images/';
         $pro_image = $path . $image_name;
+        // move image to folder
+        move_uploaded_file($tmp_name, $pro_image);
+
+        $pro_name           = $_POST['product'];
+        $pro_desc           = $_POST['description'];
+        $pro_tags           = $_POST['tags'];
+        $pro_price          = $_POST['price'];
+        $pro_special_price  = $_POST['special_price'];
+        $cat_id             = $_POST['category'];
+
+        if ($image_name) {
+            $pro_image = $path . $image_name;
+        } else {
+            $pro_image = $row['pro_image'];
+        }
+        $pro_name_query = " SELECT * FROM products WHERE pro_name = '$pro_name' ";
+        $pro_name_query_run = mysqli_query($conn, $pro_name_query);
+        if (($pro_name != $row['pro_name']) && (mysqli_num_rows($pro_name_query_run) > 0)) {
+            $repeated_name = "* Product name already taken, please try another one!";
+        } else {
+            $query = "UPDATE products SET   pro_name        = '$pro_name' ,
+                                        pro_description = '$pro_desc' ,
+                                        pro_image       = '$pro_image' , 
+                                        pro_price       = '$pro_price' ,
+                                        special_price   = '$pro_special_price' ,
+                                        pro_tags        = '$pro_tags' ,
+                                        cat_id          =  '$cat_id'
+                  WHERE pro_id = {$_GET['id']}";
+
+            $result = mysqli_query($conn, $query);
+            $_SESSION['edited_product'] = "The Product Edited Successfully";
+            header('location:manage_products.php');
+        }
     } else {
-        $pro_image = $row['pro_image'];
+        $_SESSION['empty_fields'] = 'Please enter all of fields ';
+        // temprorary antil i have some time to be more spacific 
     }
-
-    $query = "UPDATE products SET pro_name        = '$pro_name' ,
-                              pro_description = '$pro_desc' ,
-                              pro_image       = '$pro_image' , 
-                              pro_price       = '$pro_price' ,
-                              special_price   = '$pro_special_price' ,
-                              pro_tags        = '$pro_tags' ,
-                              cat_id          =  '$cat_id'
-WHERE pro_id = {$_GET['id']}";
-
-    $result = mysqli_query($conn, $query);
-    header('location:manage_products.php');
 }
-include_once 'partials/header_admin.php';
+
 ?>
+<?php include_once 'partials/header_admin.php'; ?>
 
 <!-- MAIN CONTENT-->
 <div class="main-content">
@@ -53,9 +66,17 @@ include_once 'partials/header_admin.php';
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header text-center">
-                            <strong>Update product</strong>
+                            <strong>Edit Product</strong>
                             <div class="card-body card-block">
                                 <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+                                    <?php
+                                    if (isset($_SESSION['empty_fields']) && ($_SESSION['empty_fields'] != "")) {
+                                        echo '<div class="text-center alert alert-danger">';
+                                        echo ($_SESSION['empty_fields']);
+                                        echo '</div>';
+                                        unset($_SESSION['empty_fields']);
+                                    }
+                                    ?>
                                     <div class="row form-group">
                                         <div class="col col-md-3">
                                             <label for="text-input" class=" form-control-label">Product Name</label>
@@ -64,10 +85,10 @@ include_once 'partials/header_admin.php';
                                             <input value='<?php echo $row['pro_name'] ?>' type="text" id="text-input" name="product" placeholder="Product Name" class="form-control">
                                             <small style="color: red;">
                                                 <?php
-                                                // if (isset($repeated_name) && $repeated_name != "") {
-                                                //     echo ($repeated_name);
-                                                //     unset($repeated_name);
-                                                // }
+                                                if (isset($repeated_name) && $repeated_name != "") {
+                                                    echo ($repeated_name);
+                                                    unset($repeated_name);
+                                                }
                                                 ?>
                                             </small>
                                         </div>
@@ -112,6 +133,7 @@ include_once 'partials/header_admin.php';
                                         <div class="col-12 col-md-9">
                                             <input type="file" id="file-multiple-input" name="image" multiple="" class="form-control-file">
                                         </div>
+
                                     </div>
                                     <div class="row form-group">
                                         <div class="col col-md-3">
@@ -119,16 +141,21 @@ include_once 'partials/header_admin.php';
                                         </div>
                                         <div class="col-12 col-md-9">
                                             <select name="category" id="select" class="form-control">
-
+                                                <option value="0"></option>
                                             </select>
                                         </div>
                                     </div>
-
-                                    <div>
-                                        <button id="CreateCategory" type="submit" name="submit" class="btn btn-lg btn-success btn-block" name="submit">
-                                            <span id="payment-button-amount">Update</span>
-                                        </button>
+                                    <div class="row form-group">
+                                        <div class="col col-md-3">
+                                            <label for="select" class=" form-control-label">Category</label>
+                                        </div>
+                                        <div class="col-12 col-md-9">
+                                            <button id="CreateCategory" type="submit" name="submit" class="btn btn-lg btn-success btn-block" name="submit">
+                                                <span id="payment-button-amount">Edit</span>
+                                            </button>
+                                        </div>
                                     </div>
+
 
                                 </form>
                             </div>
@@ -145,7 +172,7 @@ include_once 'partials/header_admin.php';
     </div>
 </div>
 
-        <!-- END MAIN CONTENT-->
-        <?php
-        include_once 'partials/footer_admin.php';
-        ?>
+<!-- END MAIN CONTENT-->
+<?php
+include_once 'partials/footer_admin.php';
+?>
