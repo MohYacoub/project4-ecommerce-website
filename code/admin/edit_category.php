@@ -10,7 +10,7 @@ $row   = mysqli_fetch_assoc($result);
 // make the action when user click on Save Button
 if (isset($_POST['submit_edit_category'])) {
 
-    if ((!empty($_POST['cat_name'])) ) {
+    if ((!empty($_POST['cat_name']))) {
 
 
         // get image data
@@ -47,7 +47,14 @@ if (isset($_POST['submit_edit_category'])) {
             mysqli_query($conn, $query);
 
 
-            header("location:manage_category.php");
+
+            if (($cat_name == $row['cat_name']) && ($check_img == $row['cat_image'])) {
+                $_SESSION['edited_category'] = "Nothing Edited !";
+                header("location:manage_category.php");
+            } else {
+                $_SESSION['edited_category'] = "The Category Edited Successfully";
+                header("location:manage_category.php");
+            }
         }
     } else {
         $_SESSION['empty_fields'] = 'Please enter all of fields ';
@@ -76,6 +83,13 @@ if (isset($_POST['submit_edit_category'])) {
                                     unset($_SESSION['empty_fields']);
                                 }
                                 ?>
+                                <div class="form-group ">
+                                    <div class="input-group">
+                                        <?php
+                                        echo "<img class='rounded mx-auto d-block' width='200' height='200' src='{$row['cat_image']}'>";
+                                        ?>
+                                    </div>
+                                </div>
                                 <div class="form-group">
                                     <div class="form-group">
                                         <label for="cc-payment" class="control-label mb-1">Category Name</label>

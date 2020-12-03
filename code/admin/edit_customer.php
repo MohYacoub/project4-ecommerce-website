@@ -46,8 +46,14 @@ if (isset($_POST['submit_edit_customer'])) {
                 where cust_id = {$_GET['id']}";
 
             mysqli_query($conn, $query);
-            $_SESSION['edited_customer'] = "The Customer Edited Successfully";
-            header("location:manage_customer.php");
+
+            if (($cust_name == $row['cust_name']) && ($cust_password == $row['cust_password']) && ($cust_email == $row['cust_email']) && ($cust_phone == $row['cust_phone']) && ($cust_address == $row['cust_address'])) {
+                $_SESSION['edited_customer'] = "Nothing Edited !";
+                header("location:manage_customer.php");
+            } else {
+                $_SESSION['edited_customer'] = "The Customer Edited Successfully";
+                header("location:manage_customer.php");
+            }
         }
     } else {
         $_SESSION['empty_fields'] = 'Please enter all of fields ';
@@ -66,7 +72,7 @@ if (isset($_POST['submit_edit_customer'])) {
                     <div class="card">
                         <div class="card-header text-center"><strong>Edit Customer</strong></div>
                         <div class="card-body card-block">
-                            <form action="#" method="post" class="">
+                            <form action="#" method="post" class="" enctype="multipart/form-data">
                                 <?php
                                 if (isset($_SESSION['empty_fields']) && ($_SESSION['empty_fields'] != "")) {
                                     echo '<div class="text-center alert alert-danger">';
@@ -75,6 +81,14 @@ if (isset($_POST['submit_edit_customer'])) {
                                     unset($_SESSION['empty_fields']);
                                 }
                                 ?>
+                                <div class="form-group ">
+                                    <div class="input-group">
+                                    <?php
+                                echo "<img class='rounded mx-auto d-block' width='200' height='200' src='{$row['cust_image']}'>";
+                                ?>
+                                    </div>
+                                </div>
+
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="input-group-addon"><i class="fa fa-user"></i></div>

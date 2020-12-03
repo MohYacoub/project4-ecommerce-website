@@ -34,7 +34,8 @@ if (isset($_POST['submit'])) {
               VALUES ('$pro_name','$pro_desc','$pro_image','$pro_price','$pro_special_price','$pro_tags','$cat_id')";
 
             $result = mysqli_query($conn, $query);
-            // $_SESSION['created_product'] = "The Product added successfully "; // it will not appear becouse uploading the page in header location
+            $_SESSION['created_product'] = "The Product added successfully "; 
+            // header("location: manage_product.php"); // if the rows of table repeated it self use this statement
         }
     } else {
         $_SESSION['empty_fields'] = 'Please enter all of fields ';
@@ -57,33 +58,40 @@ include_once 'partials/header_admin.php';
                             <strong>Creat New Product</strong>
                             <div class="card-body card-block">
                                 <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
-                                    <?php
-                                    if (isset($_SESSION['empty_fields']) && ($_SESSION['empty_fields'] != "")) {
-                                        echo '<div class="text-center alert alert-danger">';
-                                        echo ($_SESSION['empty_fields']);
-                                        echo '</div>';
-                                        unset($_SESSION['empty_fields']);
-                                    }
-                                    if (isset($_SESSION['created_product']) && ($_SESSION['created_product'] != "")) {
-                                        echo '<div class="text-center alert alert-success">';
-                                        echo ($_SESSION['created_product']);
-                                        echo '</div>';
-                                        unset($_SESSION['created_product']);
-                                    }
-                                    if (isset($_SESSION['deleted_product']) && ($_SESSION['deleted_product'] != "")) {
-                                        echo '<div class=" text-center alert alert-danger">';
-                                        echo ($_SESSION['deleted_product']);
-                                        echo '</div>';
-                                        unset($_SESSION['deleted_product']);
-                                    }
-                                    if (isset($_SESSION['edited_product']) && ($_SESSION['edited_product'] != "")) {
-                                        echo '<div class=" text-center alert alert-warning">';
-                                        echo ($_SESSION['edited_product']);
-                                        echo '</div>';
-                                        unset($_SESSION['edited_product']);
-                                    }
+                                    <div class="row form-group">
+                                        <div class="col col-md-3">
+                                        </div>
+                                        <div class="col-12 col-md-9">
+                                            <?php
+                                            if (isset($_SESSION['empty_fields']) && ($_SESSION['empty_fields'] != "")) {
+                                                echo '<div class="text-center alert alert-danger">';
+                                                echo ($_SESSION['empty_fields']);
+                                                echo '</div>';
+                                                unset($_SESSION['empty_fields']);
+                                            }
+                                            if (isset($_SESSION['created_product']) && ($_SESSION['created_product'] != "")) {
+                                                echo '<div class="text-center alert alert-success">';
+                                                echo ($_SESSION['created_product']);
+                                                echo '</div>';
+                                                unset($_SESSION['created_product']);
+                                            }
+                                            if (isset($_SESSION['deleted_product']) && ($_SESSION['deleted_product'] != "")) {
+                                                echo '<div class=" text-center alert alert-danger">';
+                                                echo ($_SESSION['deleted_product']);
+                                                echo '</div>';
+                                                unset($_SESSION['deleted_product']);
+                                            }
+                                            if (isset($_SESSION['edited_product']) && ($_SESSION['edited_product'] != "")) {
+                                                echo '<div class=" text-center alert alert-warning">';
+                                                echo ($_SESSION['edited_product']);
+                                                echo '</div>';
+                                                unset($_SESSION['edited_product']);
+                                            }
 
-                                    ?>
+                                            ?>
+                                        </div>
+                                    </div>
+
                                     <div class="row form-group">
                                         <div class="col col-md-3">
                                             <label for="text-input" class=" form-control-label">Product Name</label>

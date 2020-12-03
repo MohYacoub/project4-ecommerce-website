@@ -45,8 +45,14 @@ if (isset($_POST['submit'])) {
                   WHERE pro_id = {$_GET['id']}";
 
             $result = mysqli_query($conn, $query);
-            $_SESSION['edited_product'] = "The Product Edited Successfully";
-            header('location:manage_products.php');
+
+            if (($pro_name == $row['pro_name']) && ($pro_desc == $row['pro_description']) && ($pro_image == $row['pro_image']) && ($pro_price == $row['pro_price']) && ($pro_special_price == $row['special_price']) && ($pro_tags == $row['pro_tags']) && ($cat_id == $row['cat_id'])) {
+                $_SESSION['edited_product'] = "Nothing edited !";
+                header('location:manage_products.php');
+            } else {
+                $_SESSION['edited_product'] = "The Product Edited Successfully";
+                header('location:manage_products.php');
+            }
         }
     } else {
         $_SESSION['empty_fields'] = 'Please enter all of fields ';
@@ -77,6 +83,13 @@ if (isset($_POST['submit'])) {
                                         unset($_SESSION['empty_fields']);
                                     }
                                     ?>
+                                    <div class="form-group ">
+                                        <div class="input-group">
+                                            <?php
+                                            echo "<img class='rounded mx-auto d-block' width='200' height='200' src='{$row['pro_image']}'>";
+                                            ?>
+                                        </div>
+                                    </div>
                                     <div class="row form-group">
                                         <div class="col col-md-3">
                                             <label for="text-input" class=" form-control-label">Product Name</label>
@@ -141,7 +154,7 @@ if (isset($_POST['submit'])) {
                                         </div>
                                         <div class="col-12 col-md-9">
                                             <select name="category" id="select" class="form-control">
-                                            <?php
+                                                <?php
                                                 // if(isset($_POST['submit_Category'])){
                                                 $query  = "select * from categories";
                                                 $result = mysqli_query($conn, $query);

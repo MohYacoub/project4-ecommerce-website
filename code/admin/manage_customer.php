@@ -1,4 +1,4 @@
-<?php
+z<?php
 session_start();
 include_once 'partials/connection.php'; ?>
 <?php
@@ -37,8 +37,8 @@ if (isset($_POST['submit_create_customer'])) {
             $query = "INSERT INTO customers (cust_name, cust_password , cust_email , cust_phone , cust_address  , cust_image )
               values('$cust_name','$cust_password' , '$cust_email' , '$cust_phone' , '$cust_address'  , '$cust_image')";
             mysqli_query($conn, $query);
-            // $_SESSION['created_customer'] = "The Customer added successfully "; // it will not appear becouse uploading the page in header location
-            header("location: manage_customer.php");
+            $_SESSION['created_customer'] = "The Customer added successfully "; 
+            // header("location: manage_customer.php"); // if the rows of table repeated it self use this statement
         }
     } else {
         $_SESSION['empty_fields'] = 'Please enter all of fields ';
@@ -47,7 +47,9 @@ if (isset($_POST['submit_create_customer'])) {
 }
 
 ?>
-<?php include_once 'partials/header_admin.php'; ?>
+<?php
+ include_once 'partials/header_admin.php';
+ ?>
 <!-- MAIN CONTENT-->
 <div class="main-content">
     <div class="section__content section__content--p30">
@@ -57,7 +59,7 @@ if (isset($_POST['submit_create_customer'])) {
                     <div class="card">
                         <div class="card-header text-center"><strong>Create New Customer</strong></div>
                         <div class="card-body card-block">
-                            <form action="#" method="post" class="">
+                            <form action="#" method="post" class="" enctype="multipart/form-data">
                                 <?php
                                 if (isset($_SESSION['empty_fields']) && ($_SESSION['empty_fields'] != "")) {
                                     echo '<div class="text-center alert alert-danger">';
@@ -155,14 +157,15 @@ if (isset($_POST['submit_create_customer'])) {
                     <table id="bootstrap-data-table" class="table bg-white table-bordered">
                         <thead class="bg-info text-white">
                             <tr>
-                                <th>Customer ID</th>
+                                <th> ID</th>
                                 <!-- <th>Created at</th> -->
                                 <!-- <th>Updated at</th> -->
-                                <th>Customer Name</th>
-                                <th>Customer Email</th>
-                                <th>Customer Password</th>
-                                <th>Customer Phone</th>
-                                <th>Customer Address</th>
+                                <th> Name</th>
+                                <th> Email</th>
+                                <th> Password</th>
+                                <th> Phone</th>
+                                <th> Address</th>
+                                <th> Image</th>
                                 <th>Edit</th>
                                 <th>Delete</th>
                             </tr>

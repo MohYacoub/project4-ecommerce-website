@@ -30,8 +30,8 @@ if (isset($_POST['submit_create_category'])) {
             $query = "INSERT INTO categories (cat_name, cat_image )
               values('$cat_name','$path$image_name')";
             mysqli_query($conn, $query);
-            // $_SESSION['created_category'] = "The Category added successfully "; // it will not appear becouse uploading the page in header location
-            header("location: manage_category.php");
+            $_SESSION['created_category'] = "The Category added successfully "; 
+            // header("location: manage_category.php"); // if the rows of table repeated it self use this statement
         }
     } else {
         $_SESSION['empty_fields'] = 'Please enter all of fields ';
