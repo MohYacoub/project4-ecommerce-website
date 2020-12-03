@@ -141,7 +141,16 @@ if (isset($_POST['submit'])) {
                                         </div>
                                         <div class="col-12 col-md-9">
                                             <select name="category" id="select" class="form-control">
-                                                <option value="0"></option>
+                                            <?php
+                                                // if(isset($_POST['submit_Category'])){
+                                                $query  = "select * from categories";
+                                                $result = mysqli_query($conn, $query);
+                                                while ($row = mysqli_fetch_assoc($result)) {
+                                                    $idd = $row['cat_id'];
+                                                    $catname = $row['cat_name'];
+                                                    echo "<option value='$idd'>$catname</option>";
+                                                }
+                                                ?>
                                             </select>
                                         </div>
                                     </div>
