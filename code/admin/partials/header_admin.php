@@ -83,9 +83,9 @@
         <!-- MENU SIDEBAR-->
         <aside class="menu-sidebar d-none d-lg-block">
             <div class="logo">
-                <a href="#">
+                <!-- <a href="#">
                     <img src="images/icon/logo.png" alt="Cool Admin" />
-                </a>
+                </a> -->
             </div>
             <div class="menu-sidebar__content js-scrollbar1">
                 <nav class="navbar-sidebar">
@@ -96,7 +96,7 @@
                         </li> -->
                         <li class="has-sub">
                             <a class="js-arrow" href="manage_admin.php">
-                                <i class="fas fa-chart-bar"></i>Manage Admin</a>
+                                <i class="fa fa-user"></i>Manage Admin</a>
                         </li>
                         <li>
                             <a href="manage_category.php">
@@ -104,15 +104,15 @@
                         </li>
                         <li>
                             <a href="manage_products.php">
-                                <i class="fas fa-chart-bar"></i>Manage Products</a>
+                                <i class="fa fa-inbox"></i>Manage Product</a>
                         </li>
                         <li>
                             <a href="manage_customer.php">
-                                <i class="fas fa-chart-bar"></i>Manage Customer</a>
+                                <i class="fa fa-group"></i>Manage Customer</a>
                         </li>
                         <li>
                             <a href="manage_order.php">
-                                <i class="fas fa-chart-bar"></i>Manage Order</a>
+                                <i class="fa fa-credit-card"></i>Manage Order</a>
                         </li>
                         <!-- <li>
                             <a href="manage_products.php">

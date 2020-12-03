@@ -1,32 +1,41 @@
-<?php include_once 'partials/connection.php'; ?>
+<?php
+session_start();
+include_once 'partials/connection.php'; ?>
 
 <?php
 // make the action when user click on Save Button
 if (isset($_POST['submit_create_category'])) {
 
-    // get image data
-    $image_name = $_FILES['cat_image']['name'];
-    $tmp_name   = $_FILES['cat_image']['tmp_name'];
-    $path       = 'images/cat_images/';
+    if ((!empty($_POST['cat_name'])) && (!empty($_POST['cat_image']))) {
+
+        // get image data
+        $image_name = $_FILES['cat_image']['name'];
+        $tmp_name   = $_FILES['cat_image']['tmp_name'];
+        $path       = 'images/cat_images/';
 
 
-    // move image to folder
-    move_uploaded_file($tmp_name, $path . $image_name);
+        // move image to folder
+        move_uploaded_file($tmp_name, $path . $image_name);
 
 
-    // Take Data From Web Form 
-    $cat_name    = $_POST['cat_name'];
+        // Take Data From Web Form 
+        $cat_name    = $_POST['cat_name'];
 
 
-    $name_query = " SELECT * FROM categories WHERE cat_name = '$cat_name' ";
-    $name_query_run = mysqli_query($conn, $name_query);
-    if (mysqli_num_rows($name_query_run) > 0) {
-        $repeated_name = "* Category name already taken, please try another one!";
-    } else {
-        $query = "INSERT INTO categories (cat_name, cat_image )
+        $name_query = " SELECT * FROM categories WHERE cat_name = '$cat_name' ";
+        $name_query_run = mysqli_query($conn, $name_query);
+        if (mysqli_num_rows($name_query_run) > 0) {
+            $repeated_name = "* Category name already taken, please try another one!";
+        } else {
+            $query = "INSERT INTO categories (cat_name, cat_image )
               values('$cat_name','$path$image_name')";
-        mysqli_query($conn, $query);
-        header("location: manage_category.php");
+            mysqli_query($conn, $query);
+            // $_SESSION['created_category'] = "The Category added successfully "; // it will not appear becouse uploading the page in header location
+            header("location: manage_category.php");
+        }
+    } else {
+        $_SESSION['empty_fields'] = 'Please enter all of fields ';
+        // temprorary antil i have some time to be more spacific 
     }
 }
 ?>
@@ -43,17 +52,44 @@ if (isset($_POST['submit_create_category'])) {
                         <div class="card-header text-center"><strong>Create New Category</strong></div>
                         <div class="card-body card-block">
                             <form action="" method="post" enctype="multipart/form-data" class="">
+                                <?php
+                                if (isset($_SESSION['empty_fields']) && ($_SESSION['empty_fields'] != "")) {
+                                    echo '<div class="text-center alert alert-danger">';
+                                    echo ($_SESSION['empty_fields']);
+                                    echo '</div>';
+                                    unset($_SESSION['empty_fields']);
+                                }
+                                if (isset($_SESSION['created_category']) && ($_SESSION['created_category'] != "")) {
+                                    echo '<div class="text-center alert alert-success">';
+                                    echo ($_SESSION['created_category']);
+                                    echo '</div>';
+                                    unset($_SESSION['created_category']);
+                                }
+                                if (isset($_SESSION['deleted_category']) && ($_SESSION['deleted_category'] != "")) {
+                                    echo '<div class=" text-center alert alert-danger">';
+                                    echo ($_SESSION['deleted_category']);
+                                    echo '</div>';
+                                    unset($_SESSION['deleted_category']);
+                                }
+                                if (isset($_SESSION['edited_category']) && ($_SESSION['edited_category'] != "")) {
+                                    echo '<div class=" text-center alert alert-warning">';
+                                    echo ($_SESSION['edited_category']);
+                                    echo '</div>';
+                                    unset($_SESSION['edited_category']);
+                                }
+
+                                ?>
                                 <div class="form-group">
                                     <div class="form-group">
                                         <label for="cc-payment" class="control-label mb-1">Category Name</label>
-                                        <input type="text" id="adminname" name="cat_name" placeholder="Category name" class="form-control">
+                                        <input type="text" id="adminname" name="cat_name" placeholder="Category name" class="form-control" required>
                                         <small style="color: red;">
-                                        <?php
-                                        if (isset($repeated_name) && $repeated_name != "") {
-                                            echo ($repeated_name);
-                                            unset($repeated_name);
-                                        }
-                                        ?>
+                                            <?php
+                                            if (isset($repeated_name) && $repeated_name != "") {
+                                                echo ($repeated_name);
+                                                unset($repeated_name);
+                                            }
+                                            ?>
                                         </small>
                                     </div>
                                 </div>
@@ -69,7 +105,7 @@ if (isset($_POST['submit_create_category'])) {
                                             </div> -->
                                 <div>
                                     <button id="payment-button" type="submit" class="btn btn-lg btn-success btn-block" name="submit_create_category">
-                                        <span id="payment-button-amount">Edit</span>
+                                        <span id="payment-button-amount">Create</span>
                                     </button>
                                 </div>
                             </form>

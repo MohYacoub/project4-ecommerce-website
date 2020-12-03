@@ -1,4 +1,6 @@
-<?php include_once 'partials/connection.php'; ?>
+<?php
+session_start();
+include_once 'partials/connection.php'; ?>
 
 <?php
 $query = "select * from categories where cat_id = {$_GET['id']}";
@@ -8,39 +10,51 @@ $row   = mysqli_fetch_assoc($result);
 // make the action when user click on Save Button
 if (isset($_POST['submit_edit_category'])) {
 
-    // get image data
-    $image_name = $_FILES['cat_image']['name'];
-    $tmp_name   = $_FILES['cat_image']['tmp_name'];
-    $path       = 'images/cat_images/';
+    if ((!empty($_POST['cat_name'])) ) {
 
 
-    // move image to folder
-    move_uploaded_file($tmp_name, $path . $image_name);
+        // get image data
+        $image_name = $_FILES['cat_image']['name'];
+        $tmp_name   = $_FILES['cat_image']['tmp_name'];
+        $path       = 'images/cat_images/';
 
-    if ($image_name) {
-        $check_img = $path . $image_name;
+
+        // move image to folder
+        move_uploaded_file($tmp_name, $path . $image_name);
+
+        if ($image_name) {
+            $check_img = $path . $image_name;
+        } else {
+            $check_img = $row['cat_image'];
+        }
+
+
+        // Take Data From Web Form 
+        $cat_name    = $_POST['cat_name'];
+
+
+        $name_query = " SELECT * FROM categories WHERE cat_name = '$cat_name' ";
+        $name_query_run = mysqli_query($conn, $name_query);
+        if (($cat_name != $row['cat_name']) && (mysqli_num_rows($name_query_run) > 0)) {
+            $repeated_name = "* Category name already taken, please try another one!";
+        } else {
+            // if($cat_name != $row['cat_name'] && $check_img != $row['cat_image']){
+            $_SESSION['edited_category'] = "The Category Edited Successfully";
+            // }
+            $query = "UPDATE categories set cat_name      = '$cat_name' ,
+                                            cat_image     = '$check_img' 
+                      where cat_id = {$_GET['id']}";
+            mysqli_query($conn, $query);
+
+
+            header("location:manage_category.php");
+        }
     } else {
-        $check_img = $row['cat_image'];
-    }
-
-
-    // Take Data From Web Form 
-    $cat_name    = $_POST['cat_name'];
-
-
-    $name_query = " SELECT * FROM categories WHERE cat_name = '$cat_name' ";
-    $name_query_run = mysqli_query($conn, $name_query);
-    if (mysqli_num_rows($name_query_run) > 0) {
-        $repeated_name = "* Category name already taken, please try another one!";
-    } else {
-        $query = "UPDATE categories set cat_name      = '$cat_name' ,
-                                        cat_image     = '$check_img' 
-                  where cat_id = {$_GET['id']}";
-
-        mysqli_query($conn, $query);
-        header("location:manage_category.php");
+        $_SESSION['empty_fields'] = 'Please enter all of fields ';
+        // temprorary antil i have some time to be more spacific 
     }
 }
+
 ?>
 <?php include_once 'partials/header_admin.php'; ?>
 <!-- MAIN CONTENT-->
@@ -51,9 +65,17 @@ if (isset($_POST['submit_edit_category'])) {
                 <div class="col-lg-12">
                     <div class="card">
 
-                        <div class="card-header text-center"><strong>Create New Category</strong></div>
+                        <div class="card-header text-center"><strong>Edit Category</strong></div>
                         <div class="card-body card-block">
                             <form action="" method="post" enctype="multipart/form-data" class="">
+                                <?php
+                                if (isset($_SESSION['empty_fields']) && ($_SESSION['empty_fields'] != "")) {
+                                    echo '<div class="text-center alert alert-danger">';
+                                    echo ($_SESSION['empty_fields']);
+                                    echo '</div>';
+                                    unset($_SESSION['empty_fields']);
+                                }
+                                ?>
                                 <div class="form-group">
                                     <div class="form-group">
                                         <label for="cc-payment" class="control-label mb-1">Category Name</label>
@@ -75,9 +97,7 @@ if (isset($_POST['submit_edit_category'])) {
                                         <input type="file" id="file-input" name="cat_image" class="form-control-file">
                                     </div>
                                 </div>
-                                <!-- <div class="form-actions form-group">
-                                                <button type="submit" name="submit" class="btn btn-success btn-sm">Create Category</button>
-                                            </div> -->
+
                                 <div>
                                     <button id="payment-button" type="submit" class="btn btn-lg btn-success btn-block" name="submit_edit_category">
                                         <span id="payment-button-amount">Edit</span>

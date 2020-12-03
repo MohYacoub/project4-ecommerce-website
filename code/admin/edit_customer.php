@@ -1,4 +1,6 @@
-<?php include_once 'partials/connection.php'; ?>
+<?php
+session_start();
+include_once 'partials/connection.php'; ?>
 <?php
 
 $query = "select * from customers where cust_id = {$_GET['id']}";
@@ -7,28 +9,49 @@ $row   = mysqli_fetch_assoc($result);
 
 // make the action when user click on Save Button
 if (isset($_POST['submit_edit_customer'])) {
-    // Take Data From Web Form 
-// Take Data From Web Form 
-$cust_name        = $_POST['cust_name'];
-$cust_password    = $_POST['cust_password'];
-$cust_email       = $_POST['cust_email'];
-$cust_phone       = $_POST['cust_phone'];
-$cust_address     = $_POST['cust_address'];
+    if ((!empty($_POST['cust_name'])) && (!empty($_POST['cust_password'])) && (!empty($_POST['cust_email'])) && (!empty($_POST['cust_phone'])) && (!empty($_POST['cust_address']))) {
+        // Take Data From Web Form 
+        // Take Data From Web Form 
+        $cust_name        = $_POST['cust_name'];
+        $cust_password    = $_POST['cust_password'];
+        $cust_email       = $_POST['cust_email'];
+        $cust_phone       = $_POST['cust_phone'];
+        $cust_address     = $_POST['cust_address'];
 
-    $cust_email_query = " SELECT * FROM customers WHERE cust_email = '$cust_email' ";
-    $cust_email_query_run = mysqli_query($conn, $cust_email_query);
-    if (mysqli_num_rows($cust_email_query_run) > 0) {
-        $repeated_email = "* Email already taken, please try another one!";
-    } else {
-        $query = "update customers set cust_name        = '$cust_name'     ,
+        // get image data
+        $image_name = $_FILES['cust_image']['name'];
+        $tmp_name   = $_FILES['cust_image']['tmp_name'];
+        $path       = 'images/customer_images/';
+
+        // move image to folder
+        move_uploaded_file($tmp_name, $path . $image_name);
+
+        // choose photo 
+        if ($image_name) {
+            $cust_image = $path . $image_name;
+        } else {
+            $cust_image = 'images/admin_images/noimage.jpg';
+        }
+
+        $cust_email_query = " SELECT * FROM customers WHERE cust_email = '$cust_email' ";
+        $cust_email_query_run = mysqli_query($conn, $cust_email_query);
+        if (($cust_email != $row['cust_email']) && (mysqli_num_rows($cust_email_query_run) > 0)) {
+            $repeated_email = "* Email already taken, please try another one!";
+        } else {
+            $query = "update customers set cust_name    = '$cust_name'     ,
                                        cust_password    = '$cust_password' ,
                                        cust_email       = '$cust_email'    ,
                                        cust_phone       = '$cust_phone'    ,
                                        cust_address     = '$cust_address'    
                 where cust_id = {$_GET['id']}";
 
-        mysqli_query($conn, $query);
-        header("location:manage_customer.php");
+            mysqli_query($conn, $query);
+            $_SESSION['edited_customer'] = "The Customer Edited Successfully";
+            header("location:manage_customer.php");
+        }
+    } else {
+        $_SESSION['empty_fields'] = 'Please enter all of fields ';
+        // temprorary antil i have some time to be more spacific 
     }
 }
 ?>
@@ -41,12 +64,20 @@ $cust_address     = $_POST['cust_address'];
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
-                        <div class="card-header">Example Form</div>
+                        <div class="card-header text-center"><strong>Edit Customer</strong></div>
                         <div class="card-body card-block">
                             <form action="#" method="post" class="">
+                                <?php
+                                if (isset($_SESSION['empty_fields']) && ($_SESSION['empty_fields'] != "")) {
+                                    echo '<div class="text-center alert alert-danger">';
+                                    echo ($_SESSION['empty_fields']);
+                                    echo '</div>';
+                                    unset($_SESSION['empty_fields']);
+                                }
+                                ?>
                                 <div class="form-group">
                                     <div class="input-group">
-                                        <!-- <label for="cc-payment" class="control-label mb-1">Customer Name </label> -->
+                                        <div class="input-group-addon"><i class="fa fa-user"></i></div>
                                         <input type="text" id="username" name="cust_name" placeholder="Username" class="form-control" value="<?php echo $row['cust_name'] ?>">
                                     </div>
                                 </div>
@@ -82,9 +113,15 @@ $cust_address     = $_POST['cust_address'];
                                         <input type="password" id="password" name="cust_password" placeholder="Password" class="form-control" value="<?php echo $row['cust_password'] ?>">
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <div class="form-group">
+                                        <label for="file-input" class=" form-control-label">Upload Image</label>
+                                        <input type="file" id="file-input" name="cust_image" class="form-control-file">
+                                    </div>
+                                </div>
                                 <button id="payment-button" type="submit" class="btn btn-lg bg-success btn-block text-white" name="submit_edit_customer">
 
-                                    <span id="payment-button-amount">Create</span>
+                                    <span id="payment-button-amount">Edit</span>
                                 </button>
                             </form>
                         </div>

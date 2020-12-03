@@ -1,7 +1,10 @@
-<?php include_once 'partials/connection.php'; ?>
+<?php
+session_start();
+include_once 'partials/connection.php'; ?>
 
 <?php
-if (isset($_POST['submit'])) {
+if (isset($_POST['submit']) ) {
+    if ((!empty($_POST['product']))  && (!empty($_POST['description']))  && (!empty($_POST['tags']))  && (!empty($_POST['price']))  && (!empty($_POST['special_price']))  && (!empty($_POST['category'])) && (!empty($_POST['image']))) {
     // get image data
     $image_name = $_FILES['image']['name'];
     $tmp_name   = $_FILES['image']['tmp_name'];
@@ -17,7 +20,11 @@ if (isset($_POST['submit'])) {
     $pro_special_price  = $_POST['special_price'];
     $cat_id             = $_POST['category'];
 
-
+    if ($image_name) {
+        $pro_image = $path . $image_name;
+    } else {
+        $pro_image = $row['pro_image'];
+    }
     $pro_name_query = " SELECT * FROM products WHERE pro_name = '$pro_name' ";
     $pro_name_query_run = mysqli_query($conn, $pro_name_query);
     if (mysqli_num_rows($pro_name_query_run) > 0) {
@@ -27,10 +34,17 @@ if (isset($_POST['submit'])) {
               VALUES ('$pro_name','$pro_desc','$pro_image','$pro_price','$pro_special_price','$pro_tags','$cat_id')";
 
         $result = mysqli_query($conn, $query);
+        // $_SESSION['created_product'] = "The Product added successfully "; // it will not appear becouse uploading the page in header location
     }
+} else {
+    $_SESSION['empty_fields'] = 'Please enter all of fields ';
+    // temprorary antil i have some time to be more spacific 
+}
 }
 ?>
-<?php include_once 'partials/header_admin.php'; ?>
+<?php
+include_once 'partials/header_admin.php';
+?>
 <!-- MAIN CONTENT-->
 <div class="main-content">
     <div class="section__content section__content--p30">
@@ -40,9 +54,36 @@ if (isset($_POST['submit'])) {
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-header text-center">
-                            <strong>Adding a product</strong>
+                            <strong>Creat New Product</strong>
                             <div class="card-body card-block">
                                 <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+                                    <?php
+                                    if (isset($_SESSION['empty_fields']) && ($_SESSION['empty_fields'] != "")) {
+                                        echo '<div class="text-center alert alert-danger">';
+                                        echo ($_SESSION['empty_fields']);
+                                        echo '</div>';
+                                        unset($_SESSION['empty_fields']);
+                                    }
+                                    if (isset($_SESSION['created_product']) && ($_SESSION['created_product'] != "")) {
+                                        echo '<div class="text-center alert alert-success">';
+                                        echo ($_SESSION['created_product']);
+                                        echo '</div>';
+                                        unset($_SESSION['created_product']);
+                                    }
+                                    if (isset($_SESSION['deleted_product']) && ($_SESSION['deleted_product'] != "")) {
+                                        echo '<div class=" text-center alert alert-danger">';
+                                        echo ($_SESSION['deleted_product']);
+                                        echo '</div>';
+                                        unset($_SESSION['deleted_product']);
+                                    }
+                                    if (isset($_SESSION['edited_product']) && ($_SESSION['edited_product'] != "")) {
+                                        echo '<div class=" text-center alert alert-warning">';
+                                        echo ($_SESSION['edited_product']);
+                                        echo '</div>';
+                                        unset($_SESSION['edited_product']);
+                                    }
+
+                                    ?>
                                     <div class="row form-group">
                                         <div class="col col-md-3">
                                             <label for="text-input" class=" form-control-label">Product Name</label>
@@ -108,7 +149,7 @@ if (isset($_POST['submit'])) {
                                         </div>
                                         <div class="col-12 col-md-9">
                                             <select name="category" id="select" class="form-control">
-
+                                                <option value="0"></option>
                                             </select>
                                         </div>
                                     </div>
@@ -175,13 +216,13 @@ if (isset($_POST['submit'])) {
                                 </table>
                             </div>
                             <!-- END DATA TABLE-->
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- END MAIN CONTENT-->
-        <?php
-        include_once 'partials/footer_admin.php';
-        ?>
+    </div>
+    <!-- END MAIN CONTENT-->
+    <?php
+    include_once 'partials/footer_admin.php';
+    ?>
