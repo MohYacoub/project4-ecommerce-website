@@ -1,8 +1,10 @@
 <?php
 include('partails/public_head.php');
 include('partails/public_header.php');
-include_once 'admin/partials/connection.php';
+include('admin/partials/connection.php');
 
+/* include_once 'admin/partials/connection.php';
+ */
 ?>
 
 <div class="main-content">
@@ -103,12 +105,12 @@ include_once 'admin/partials/connection.php';
                         <div class="banner">
                             <div class="item-banner style12">
                                 <div class="inner">
-                                    <div style="background-image:url('<?php echo $cat_row['cat_image']; ?>'); background-repeat:no-repeat" class="banner-content">
+                                    <div style="background-image:url('admin/<?php echo $cat_row['cat_image']; ?>'); background-repeat:no-repeat" class="banner-content">
                                         <h3 class="title"><?php echo $cat_row['cat_name']; ?></h3>
                                         <div class="description">
                                             Check out new <br /> collection!
                                         </div>
-                                        <a href="<?php echo "grid_products.php?catid='{$cat_row['cat_id']}" ?>" class="button btn-shop-now">Shop now</a>
+                                        <a href="<?php echo"grid_products.php?catid={$cat_row['cat_id']}" ?>" class="button btn-shop-now">Shop now</a>
                                     </div>
                                 </div>
                             </div>
