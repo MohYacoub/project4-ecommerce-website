@@ -34,8 +34,8 @@ if (isset($_POST['submit_create_admin'])) {
             $query = "INSERT INTO admins (admin_name,admin_password,admin_email, admin_image)
         values('$admin_name','$admin_password','$admin_email', '$admin_image' )";
             mysqli_query($conn, $query);
-            // $_SESSION['created_admin'] = "The Admin added successfully "; // it will not appear becouse uploading the page in header location
-            header("location: manage_admin.php");
+            $_SESSION['created_admin'] = "The Admin added successfully "; 
+            // header("location: manage_admin.php"); // if the rows of table repeated it self use this statement
         }
     } else {
         $_SESSION['empty_fields'] = 'Please enter all of fields ';
@@ -150,7 +150,7 @@ if (isset($_POST['submit_create_admin'])) {
                                         <th>ID</th>
                                         <th>Name</th>
                                         <th>Email</th>
-                                        <th>Password</th>
+                                        <!-- <th>Password</th> -->
                                         <th>Image</th>
                                         <th>Edit</th>
                                         <th>Delete</th>
@@ -165,7 +165,7 @@ if (isset($_POST['submit_create_admin'])) {
                                         echo "<td>{$row['admin_id']}</td>";
                                         echo "<td>{$row['admin_name']}</td>";
                                         echo "<td>{$row['admin_email']}</td>";
-                                        echo "<td>{$row['admin_password']}</td>";
+                                        // echo "<td>{$row['admin_password']}</td>";
                                         echo "<td><img src='{$row['admin_image']}'></td>";
                                         echo "<td><a href='edit_admin.php?id={$row['admin_id']}' class='btn btn-primary'>Edit</a></td>";
                                         echo "<td><a href='delete_admin.php?id={$row['admin_id']}' class='btn btn-danger'>Delete</a></td>";

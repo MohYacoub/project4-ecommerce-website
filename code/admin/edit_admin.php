@@ -40,16 +40,21 @@ if (isset($_POST['submit_edit_admin'])) {
                                     admin_email       = '$admin_email'    ,
                                     admin_image       = '$admin_image'    
                   where admin_id = {$_GET['id']}";
-
             mysqli_query($conn, $query);
-            $_SESSION['edited_admin'] = "The Admin Edited Successfully";
-            header("location:manage_admin.php");
+
+            if (($admin_email == $row['admin_email']) && ($admin_password == $row['admin_password']) && ($admin_name == $row['admin_name']) && ($admin_image == $row['admin_image'])) {
+                $_SESSION['edited_admin'] = "Nothing Edited !";
+                header("location:manage_admin.php");
+            } else {
+                $_SESSION['edited_admin'] = "The Admin Edited Successfully";
+                header("location:manage_admin.php");
+            }
         }
-    }else {
+    } else {
         $_SESSION['empty_fields'] = 'Please enter all of fields ';
         // temprorary antil i have some time to be more spacific 
     }
-} 
+}
 ?>
 
 <?php include_once 'partials/header_admin.php'; ?>
@@ -73,6 +78,13 @@ if (isset($_POST['submit_edit_admin'])) {
                                 unset($_SESSION['empty_fields']);
                             }
                             ?>
+                            <div class="form-group ">
+                                <div class="input-group">
+                                    <?php
+                                    echo "<img class='rounded mx-auto d-block' width='200' height='200' src='{$row['admin_image']}'>";
+                                    ?>
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-addon">
@@ -102,7 +114,7 @@ if (isset($_POST['submit_edit_admin'])) {
                                     <div class="input-group-addon">
                                         <i class="fa fa-asterisk"></i>
                                     </div>
-                                    <input type="password" id="adminpassword" name="admin_password" placeholder="Password" class="form-control" value="<?php echo $row['admin_password'] ?>">
+                                    <input type="text" id="adminpassword" name="admin_password" placeholder="Password" class="form-control" value="<?php echo $row['admin_password'] ?>">
                                 </div>
                             </div>
                             <div class="row form-group">
