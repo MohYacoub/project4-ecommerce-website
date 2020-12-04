@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 include_once 'partials/connection.php'; ?>
 
 <?php
@@ -14,8 +14,11 @@ if (isset($_POST['submit'])) {
         move_uploaded_file($tmp_name, $pro_image);
 
         $pro_name           = $_POST['product'];
+        $pro_name           = mysqli_real_escape_string($conn , $pro_name) ;
         $pro_desc           = $_POST['description'];
+        $pro_desc           = mysqli_real_escape_string($conn , $pro_desc) ;
         $pro_tags           = $_POST['tags'];
+        $pro_tags           = mysqli_real_escape_string($conn , $pro_tags) ; 
         $pro_price          = $_POST['price'];
         $pro_special_price  = $_POST['special_price'];
         $cat_id             = $_POST['category'];
@@ -30,12 +33,12 @@ if (isset($_POST['submit'])) {
         if (mysqli_num_rows($pro_name_query_run) > 0) {
             $repeated_name = "* Product name already taken, please try another one!";
         } else {
-            $query = "INSERT INTO products(pro_name,pro_description,pro_image,pro_price,special_price,pro_tags,cat_id) 
+            $query = "INSERT INTO products (pro_name,pro_description,pro_image,pro_price,special_price,pro_tags,cat_id) 
               VALUES ('$pro_name','$pro_desc','$pro_image','$pro_price','$pro_special_price','$pro_tags','$cat_id')";
 
             $result = mysqli_query($conn, $query);
             $_SESSION['created_product'] = "The Product added successfully "; 
-            // header("location: manage_product.php"); // if the rows of table repeated it self use this statement
+            // header("location: manage_products.php"); // if the rows of table repeated it self use this statement
         }
     } else {
         $_SESSION['empty_fields'] = 'Please enter all of fields ';
@@ -196,7 +199,7 @@ include_once 'partials/header_admin.php';
                                             <!-- <th>Created at</th> -->
                                             <!-- <th>Updated at</th> -->
                                             <th>Name</th>
-                                            <th>Description</th>
+                                            <!-- <th>Description</th> -->
                                             <th>Image</th>
                                             <th>Price</th>
                                             <th>Speacial Price</th>
@@ -217,7 +220,7 @@ include_once 'partials/header_admin.php';
                                             // echo "<td>{$row['created_at']}</td>";
                                             // echo "<td>{$row['updated_at']}</td>";
                                             echo "<td>{$row['pro_name']}</td>";
-                                            echo "<td>{$row['pro_description']}</td>";
+                                            // echo "<td>{$row['pro_description']}</td>";
                                             echo "<td><img src='{$row['pro_image']}'></td>";
                                             echo "<td>{$row['pro_price']}</td>";
                                             echo "<td>{$row['special_price']}</td>";

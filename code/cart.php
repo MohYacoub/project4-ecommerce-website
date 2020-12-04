@@ -1,8 +1,9 @@
 <?php
 include('admin/partials/connection.php');
-session_start();
+
 ?>
-<?php include('partails/public_head.php');
+<?php
+include('partails/public_head.php');
 include('partails/public_header.php');
 
 ?>
@@ -27,13 +28,15 @@ include('partails/public_header.php');
                 </ul>
             </div>
             <div class="row">
-                <div class="main-content-cart main-content col-sm-12">
-                    <h3 class="custom_blog_title">
+
+                <div class="main-content-cart main-content col-sm-2"></div>
+                <div class="main-content-cart main-content col-sm-8">
+                    <h3 class="text-center custom_blog_title">
                         Shopping Cart
                     </h3>
                     <div class="page-main-content">
                         <div class="shoppingcart-content">
-                            <form action="http://ledthanhdat.vn/html/moorabi/shoppingcart.html" class="cart-form">
+                            <form method='post' action='<?= $_SERVER['PHP_SELF']; ?>' class="cart-form">
                                 <table class="shop_table">
                                     <thead>
                                     <tr>
@@ -51,28 +54,29 @@ include('partails/public_header.php');
                                          foreach($cartarr as $key => $value){
                                              ?>
 
-                                       
                                     <tr class="cart_item">
                                         <td class="product-remove">
-                                            <a href="<?php echo "delete_cart.php?key=$key";?>" class="remove"></a>
+                                            <a href="<?php echo "delete_cart.php?key2=$key";?>" class="remove"></a>
                                         </td>
                                         <td class="product-thumbnail">
                                             <a href="#">
-                                                <img src=<?php echo"admin/{$value['product_image']}"?> alt="img"
+                                                <img src="<?php echo"admin/{$value['product_image']}"?>" alt="img"
                                                      class="attachment-shop_thumbnail size-shop_thumbnail wp-post-image">
                                             </a>
                                         </td>
                                         <td class="product-name" data-title="Product">
-                                            <a href="#" class="title"><?php echo"admin/{$value['product_name']}"?> </a>
+                                            <a href="#" class="title"><?php echo"{$value['product_name']}"?> </a>
                                             
                                         </td>
                                         <td class="product-quantity" data-title="Quantity">
                                             <div class="quantity">
                                                 <div class="control">
-                                                    <a class="btn-number qtyminus quantity-minus" href="#">-</a>
-                                                    <input type="text" data-step="1" data-min="0" value="1" title="Qty"
-                                                           class="input-qty qty" size="4">
+                                                  
+                                                    <a type="submit" class="btn-number qtyminus quantity-minus" href="#">-</a>
+                                                    <input name="increment" type="text" data-step="1" data-min="0" value="1" title="Qty"
+                                                    class="input-qty qty" size="4">
                                                     <a href="#" class="btn-number qtyplus quantity-plus">+</a>
+                                                    
                                                 </div>
                                             </div>
                                         </td>
@@ -80,8 +84,20 @@ include('partails/public_header.php');
 													<span class="woocommerce-Price-amount amount">
 														<span class="woocommerce-Price-currencySymbol">
 															$
-														</span>
-														45
+                                                        </span>
+                                                        <?php 
+                                        $val1 = $value['product_price'];
+                                        $val2 = $value['special_price'];
+
+                                        if(($val1 - $val2) < $val1 ){
+                                           echo"{$value['special_price']}" ;
+                                        }else{
+                                            echo"{$value['product_price']}" ;
+                                        }
+                                        ?>
+                                         
+                                    
+                                           
 													</span>
                                         </td>
                                     </tr>
@@ -99,7 +115,7 @@ include('partails/public_header.php');
 															Total Price:
 														</span>
                                                 <span class="total-price">
-															$95
+															$95 <?php  echo $_POST['increment'] ; ?>
 														</span>
                                             </div>
                                         </td>
@@ -118,6 +134,8 @@ include('partails/public_header.php');
                         </div>
                     </div>
                 </div>
+                <div class="main-content-cart main-content col-sm-2"></div>
+
             </div>
         </div>
     </main>

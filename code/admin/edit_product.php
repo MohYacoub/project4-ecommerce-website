@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 include('partials/connection.php');
 ?>
 
@@ -19,8 +19,11 @@ if (isset($_POST['submit'])) {
         move_uploaded_file($tmp_name, $pro_image);
 
         $pro_name           = $_POST['product'];
+        $pro_name           = mysqli_real_escape_string($conn , $pro_name) ;
         $pro_desc           = $_POST['description'];
+        $pro_desc           = mysqli_real_escape_string($conn , $pro_desc) ;
         $pro_tags           = $_POST['tags'];
+        $pro_tags           = mysqli_real_escape_string($conn , $pro_tags) ; 
         $pro_price          = $_POST['price'];
         $pro_special_price  = $_POST['special_price'];
         $cat_id             = $_POST['category'];
@@ -36,12 +39,12 @@ if (isset($_POST['submit'])) {
             $repeated_name = "* Product name already taken, please try another one!";
         } else {
             $query = "UPDATE products SET   pro_name        = '$pro_name' ,
-                                        pro_description = '$pro_desc' ,
-                                        pro_image       = '$pro_image' , 
-                                        pro_price       = '$pro_price' ,
-                                        special_price   = '$pro_special_price' ,
-                                        pro_tags        = '$pro_tags' ,
-                                        cat_id          =  '$cat_id'
+                                            pro_description = '$pro_desc' ,
+                                            pro_image       = '$pro_image' , 
+                                            pro_price       = '$pro_price' ,
+                                            special_price   = '$pro_special_price' ,
+                                            pro_tags        = '$pro_tags' ,
+                                            cat_id          =  '$cat_id'
                   WHERE pro_id = {$_GET['id']}";
 
             $result = mysqli_query($conn, $query);

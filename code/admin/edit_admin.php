@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 include_once 'partials/connection.php'; ?>
 
 <?php
@@ -13,8 +13,9 @@ if (isset($_POST['submit_edit_admin'])) {
     if ((!empty($_POST['admin_name'])) && (!empty($_POST['admin_password'])) && (!empty($_POST['admin_email']))) {
         // Take Data From Web Form 
         $admin_name     = $_POST['admin_name'];
+        $admin_name     = mysqli_real_escape_string($conn , $admin_name) ; 
         $admin_password = $_POST['admin_password'];
-        $admin_email = $_POST['admin_email'];
+        $admin_email    = $_POST['admin_email'];
 
         // get image data
         $image_name = $_FILES['admin_image']['name'];

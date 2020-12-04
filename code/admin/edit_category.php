@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 include_once 'partials/connection.php'; ?>
 
 <?php
@@ -31,6 +31,7 @@ if (isset($_POST['submit_edit_category'])) {
 
         // Take Data From Web Form 
         $cat_name    = $_POST['cat_name'];
+        $cat_name    = mysqli_real_escape_string($conn , $cat_name) ; 
 
 
         $name_query = " SELECT * FROM categories WHERE cat_name = '$cat_name' ";

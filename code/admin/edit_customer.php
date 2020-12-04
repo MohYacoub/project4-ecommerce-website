@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 include_once 'partials/connection.php'; ?>
 <?php
 
@@ -11,12 +11,13 @@ $row   = mysqli_fetch_assoc($result);
 if (isset($_POST['submit_edit_customer'])) {
     if ((!empty($_POST['cust_name'])) && (!empty($_POST['cust_password'])) && (!empty($_POST['cust_email'])) && (!empty($_POST['cust_phone'])) && (!empty($_POST['cust_address']))) {
         // Take Data From Web Form 
-        // Take Data From Web Form 
         $cust_name        = $_POST['cust_name'];
+        $cust_name        = mysqli_real_escape_string($conn , $cust_name) ; 
         $cust_password    = $_POST['cust_password'];
         $cust_email       = $_POST['cust_email'];
         $cust_phone       = $_POST['cust_phone'];
         $cust_address     = $_POST['cust_address'];
+        $cust_address     = mysqli_real_escape_string($conn , $cust_address) ; 
 
         // get image data
         $image_name = $_FILES['cust_image']['name'];
@@ -35,6 +36,9 @@ if (isset($_POST['submit_edit_customer'])) {
 
         $cust_email_query = " SELECT * FROM customers WHERE cust_email = '$cust_email' ";
         $cust_email_query_run = mysqli_query($conn, $cust_email_query);
+
+
+        
         if (($cust_email != $row['cust_email']) && (mysqli_num_rows($cust_email_query_run) > 0)) {
             $repeated_email = "* Email already taken, please try another one!";
         } else {
@@ -42,12 +46,13 @@ if (isset($_POST['submit_edit_customer'])) {
                                        cust_password    = '$cust_password' ,
                                        cust_email       = '$cust_email'    ,
                                        cust_phone       = '$cust_phone'    ,
-                                       cust_address     = '$cust_address'    
+                                       cust_address     = '$cust_address'  ,    
+                                       cust_image       = '$cust_image'    
                 where cust_id = {$_GET['id']}";
 
             mysqli_query($conn, $query);
 
-            if (($cust_name == $row['cust_name']) && ($cust_password == $row['cust_password']) && ($cust_email == $row['cust_email']) && ($cust_phone == $row['cust_phone']) && ($cust_address == $row['cust_address'])) {
+            if (($cust_name == $row['cust_name']) && ($cust_password == $row['cust_password']) && ($cust_email == $row['cust_email']) && ($cust_phone == $row['cust_phone']) && ($cust_address == $row['cust_address']) && ($cust_image == $row['cust_image']) ) {
                 $_SESSION['edited_customer'] = "Nothing Edited !";
                 header("location:manage_customer.php");
             } else {
@@ -136,6 +141,10 @@ if (isset($_POST['submit_edit_customer'])) {
                                 <button id="payment-button" type="submit" class="btn btn-lg bg-success btn-block text-white" name="submit_edit_customer">
 
                                     <span id="payment-button-amount">Edit</span>
+                                </button>
+                                <button id="payment-button" type="submit" class="btn btn-lg bg-success btn-block text-white" name="cancel_edit_customer">
+
+                                    <a href="manage_customer.php" id="payment-button-amount">cancel</a>
                                 </button>
                             </form>
                         </div>

@@ -94,10 +94,14 @@ session_start();
             <div class="menu-sidebar__content js-scrollbar1">
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
-                        <!-- <li class="has-sub">
+                        <li class="has-sub">
                             <a class="js-arrow" href="index.php">
                                 <i class="fas fa-tachometer-alt"></i>Dashboard</a>
-                        </li> -->
+                        </li>
+                        <li>
+                            <a href="../index.php">
+                            <i class="fas fa-home"></i>Back To Home Page</a>
+                        </li>
                         <?php
                         include('connection.php');
                         if (isset($_SESSION['superadmin'])) {
@@ -160,7 +164,7 @@ session_start();
                                             <img src="images/icon/avatar-01.jpg" alt="John Doe" />
                                         </div> -->
                                         <div class="content">
-                                            <a class="js-acc-btn" href="#">Welcome <?php echo $_SESSION['superadmin']; ?> </a>
+                                            <a class="js-acc-btn" href="#">Welcome <?php "HHHHH" #echo $_SESSION['superadmin']; ?> </a>
                                         </div>
                                         <div class="account-dropdown js-dropdown">
                                             <div class="info clearfix">

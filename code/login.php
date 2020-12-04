@@ -1,11 +1,12 @@
 <?php
-session_start();
+
 include('admin/partials/connection.php');
 
 // $errorcheck = "";
 $query  = "SELECT * FROM admins";
 $result = mysqli_query($conn,$query);
 if(isset($_POST['submit'])){
+	session_start();
 	$username = strtolower($_POST['username']);
 	$pass = $_POST['password'];
 	if(!empty($username) && !empty($pass)){
@@ -31,12 +32,17 @@ if(isset($_POST['submit'])){
 $query2  = "SELECT * FROM customers";
 $result2 = mysqli_query($conn,$query2);
 if(isset($_POST['submit'])){
+	session_start();
 	$username = strtolower($_POST['username']);
 	$pass = $_POST['password'];
 	if(!empty($username) && !empty($pass)){
     while($row2 = mysqli_fetch_assoc($result2)){
         if($username == $row2["cust_name"] && $pass== $row2["cust_password"] ){
-            $_SESSION['user'] = $username;
+			$_SESSION['pass'] = $pass;
+			$_SESSION['user'] = $username;
+			$_SESSION['cust_id'] = $row2['cust_id'];
+			$_SESSION['phone'] = $row2['cust_phone'];
+			$_SESSION['address'] = $row2['cust_address'];
             header("Location: index.php");}
             else{
 				$errorcheck = "Incrorect Username Or Password";

@@ -1,5 +1,5 @@
 z<?php
-session_start();
+
 include_once 'partials/connection.php'; ?>
 <?php
 
@@ -9,10 +9,12 @@ if (isset($_POST['submit_create_customer'])) {
 
         // Take Data From Web Form 
         $cust_name        = $_POST['cust_name'];
+        $cust_name        = mysqli_real_escape_string($conn , $cust_name) ; 
         $cust_password    = $_POST['cust_password'];
         $cust_email       = $_POST['cust_email'];
         $cust_phone       = $_POST['cust_phone'];
         $cust_address     = $_POST['cust_address'];
+        $cust_address     = mysqli_real_escape_string($conn , $cust_address) ; 
 
         // get image data
         $image_name = $_FILES['cust_image']['name'];

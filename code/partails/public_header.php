@@ -1,7 +1,10 @@
 <?php
 session_start();
 include_once './admin/partials/connection.php';
+$pageurl = $_SERVER["REQUEST_URI"];
+$_SESSION['page'] = $pageurl;
 ?>
+
 <body class="home">
 <header class="header style7">
     <div class="top-bar">
@@ -61,12 +64,15 @@ include_once './admin/partials/connection.php';
                                 <div class="category">
                                     <select title="cate" data-placeholder="All Categories" class="chosen-select"
                                             tabindex="1">
-                                        <option value="United States">Accessories</option>
-                                        <option value="United Kingdom">Clothing</option>
-                                        <option value="Afghanistan">Teddy Bear</option>
-                                        <option value="Aland Islands">Dress</option>
-                                        <option value="Albania">New Arrivals</option>
-                                        <option value="Algeria">Storage</option>
+
+                                        <?php
+                                        $queryallcat= "SELECT * FROM categories ";
+                                        $resultallcat = mysqli_query($conn, $queryallcat);
+                                        while ($cat_all = mysqli_fetch_assoc($resultallcat)) {
+                                            ?>
+                                        
+                                        <option value="<?php echo "{$cat_all['cat_id']}"; ?>"><?php echo "{$cat_all['cat_name']}"; ?></option>
+                                        <?php } ?>
                                     </select>
                                 </div>
                                 <div class="inner">
@@ -81,21 +87,80 @@ include_once './admin/partials/connection.php';
                 </div>
                 <div class="col-lg-2 col-sm-12 col-md-3 col-xs-12 col-ts-12">
                     <div class="header-control">
-                        <div class="block-minicart moorabi-mini-cart block-header moorabi-dropdown">
+                    <div class="block-minicart moorabi-mini-cart block-header moorabi-dropdown">
                             <a href="javascript:void(0);" class="shopcart-icon" data-moorabi="moorabi-dropdown">
                                 Cart
                                 <span class="count">
-									0
-									</span>
+                                        
+                                <?php
+                                $countcart = 0;
+                                if(isset($_SESSION["cart"])){
+                                $array = $_SESSION["cart"];
+                                foreach ($array as $k) {
+                                    $countcart=  count($array);
+                                }
+
+                                echo $countcart;
+                            }else{
+                                echo $countcart;
+                            }
+                                ?>
+
+								</span>
                             </a>
-                            <div class="no-product moorabi-submenu">
-                                <p class="text">
-                                    You have
-                                    <span>
-											 0 item(s)
-										</span>
-                                    in your bag
-                                </p>
+                            <div class="shopcart-description moorabi-submenu">
+                                <div class="content-wrap">
+                                    <h3 class="title">Shopping Cart</h3>
+                                    <ul class="minicart-items">
+
+
+                                    <?php 
+                                    if(isset($_SESSION["cart"])){
+                                         $cartarr = $_SESSION["cart"];
+                                         foreach($cartarr as $key => $value){
+                                             ?>
+
+                                        <li class="product-cart mini_cart_item">
+                                            <a href="#" class="product-media">
+                                                <img src="<?php echo"admin/{$value['product_image']}"?>" alt="img">
+                                            </a>
+                                            <div class="product-details">
+                                                <h5 class="product-name">
+                                                    <a href="#"><?php echo"{$value['product_name']}"?></a>
+                                                </h5>
+                                                <span class="product-price">
+															<span class="price">
+																<span><?php echo"{$value['product_price']}"?></span>
+															</span>
+														</span>
+                                                <span class="product-quantity">
+															(x1)
+														</span>
+                                                <div class="product-remove">
+                                                    <a href="<?php echo "delete_cart.php?key1=$key";?>"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <?php }}?>
+                                       
+                                    </ul>
+                                    <div class="subtotal">
+                                        <span class="total-title">Subtotal: </span>
+                                        <span class="total-price">
+													<span class="Price-amount">
+														$135
+													</span>
+												</span>
+                                    </div>
+                                    <div class="actions">
+                                        <a class="button button-viewcart" href="cart.php">
+                                            <span>View Bag</span>
+                                        </a>
+                                        <a href="checkout.php" class="button button-checkout">
+                                            <span>Checkout</span>
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="block-account block-header moorabi-dropdown">
@@ -176,48 +241,20 @@ include_once './admin/partials/connection.php';
                     </div>
                     <div class="block-content verticalmenu-content">
                         <ul class="moorabi-nav-vertical vertical-menu moorabi-clone-mobile-menu">
+
+                        <?php
+                                        $queryallcat2= "SELECT * FROM categories ";
+                                        $resultallcat2 = mysqli_query($conn, $queryallcat2);
+                                        while ($cat_all2 = mysqli_fetch_assoc($resultallcat2)) {
+                                        ?>
+
                             <li class="menu-item">
-                                <a href="#" class="moorabi-menu-item-title" title="New Arrivals">New Arrivals</a>
+                                <a href="<?php echo "grid_products.php?catid={$cat_all2['cat_id']}"; ?>" class="moorabi-menu-item-title" title="New Arrivals"><?php echo "{$cat_all2['cat_name']}"; ?></a>
                             </li>
-                            <li class="menu-item">
-                                <a title="Hot Sale" href="#" class="moorabi-menu-item-title">Hot Sale</a>
-                            </li>
-                            <li class="menu-item menu-item-has-children">
-                                <a title="Accessories" href="#" class="moorabi-menu-item-title">Accessories</a>
-                                <span class="toggle-submenu"></span>
-                                <ul role="menu" class=" submenu">
-                                    <li class="menu-item">
-                                        <a title="Gifts" href="#" class="moorabi-item-title">Gifts</a>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a title="Clothing" href="#" class="moorabi-item-title">Clothing</a>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a title="New Arrivals" href="#" class="moorabi-item-title">New Arrivals</a>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a title="Accessories" href="#" class="moorabi-item-title">Accessories</a>
-                                    </li>
-                                    <li class="menu-item">
-                                        <a title="Storage" href="#" class="moorabi-item-title">Storage</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="menu-item">
-                                <a title="Clothing" href="#" class="moorabi-menu-item-title">Clothing</a>
-                            </li>
-                            <li class="menu-item">
-                                <a title="Backpack" href="#" class="moorabi-menu-item-title">Backpack</a>
-                            </li>
-                            <li class="menu-item">
-                                <a title="Toys" href="#" class="moorabi-menu-item-title">Toys</a>
-                            </li>
-                            <li class="menu-item">
-                                <a title="Car Seat" href="#" class="moorabi-menu-item-title">Car Seat</a>
-                            </li>
-                            <li class="menu-item">
-                                <a title="Jewellery" href="#" class="moorabi-menu-item-title">Jewellery</a>
-                            </li>
+
+                            <?php
+                                        }
+                            ?>
                         </ul>
                     </div>
                 </div>
