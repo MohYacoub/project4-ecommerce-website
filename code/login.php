@@ -52,6 +52,7 @@ if(isset($_POST['submit'])){
 			$_SESSION['cust_id'] =  $cust_row['cust_id'];
 			$_SESSION['phone'] =  $cust_row['cust_phone'];
 			$_SESSION['address'] = $cust_row['cust_address'];
+			$_SESSION['email'] = $cust_row['cust_email'];
 			header("Location: index.php");
 		
 		

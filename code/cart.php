@@ -1,6 +1,5 @@
 <?php
 session_start();
-
 include('admin/partials/connection.php');
 
 ?>
@@ -10,38 +9,13 @@ include('partails/public_header.php');
 
 ?>
 
-                                      
-                                      
-                                      
-<?php
-
-
-if(isset($_SESSION["cart"])){
-    $cartarr3 = $_SESSION["cart"];
-    foreach($cartarr3 as $key => $value){
-
-     
-     $valprice12 = $value['product_price'];
-     $valprice22 = $value['special_price'];
- 
-     if(($valprice12 - $valprice22) < $valprice12 ){
-         $protot2[] = $valprice22 ;
-     }else{
-         $protot2[] = $valprice12 ;
-     }}
- 
-     $total2 = array_sum($protot2);
-     $_SESSION['total']=$total2;
- }
- ?>
-
-
 <?php 
 if(isset($_POST['calsub'])){
    $cartarr2 = $_SESSION["cart"];
    foreach($cartarr2 as $key => $value){
     $varinp = (int)$value['product_id'];
     $inpinc = $_POST[$varinp];
+    $qty[] = $inpinc;
     
     $valprice1 = $value['product_price'];
     $valprice2 = $value['special_price'];
@@ -51,9 +25,14 @@ if(isset($_POST['calsub'])){
     }else{
         $protot[] = $inpinc * $valprice1 ;
     }}
-
+    $_SESSION['qtyarr'] = $qty; 
+    // if (!isset($_SESSION['qtyarr'])) {
+    //     $qty1 = array();
+    //     $_SESSION['qtyarr'] = $qty1;
+    // }
+    // array_push($_SESSION['qtyarr'], $qty);
     $total = array_sum($protot);
-    $_SESSION['total']=$total;
+    $_SESSION['total1']=$total;
 }
 ?>
 
@@ -128,7 +107,13 @@ if(isset($_POST['calsub'])){
                                                 <div class="control">
                                                   
                                                     <a type="submit" class="btn-number qtyminus quantity-minus" href="#">-</a>
-                                                    <input name="<?php echo (int)$value['product_id']?>" type="text" data-step="1" data-min="0" value="1" title="Qty"
+                                                    <input name="<?php echo (int)$value['product_id']?>" type="text" data-step="1" data-min="0" value="<?php
+                                                    if(isset($_SESSION['qtyarr'])){
+                                                      echo $_SESSION['qtyarr'][$key];     
+                                                    }  else {
+                                                        echo 1;
+                                                    }
+                                                    ?>" title="Qty"
                                                     class="input-qty qty" size="4">
                                                     <a href="#" class="btn-number qtyplus quantity-plus">+</a>
                                                     
@@ -201,9 +186,9 @@ if(isset($_POST['calsub'])){
                                     
                             ?>
                              <div class="control-cart">
-                                <button class="button btn-continue-shopping">
+                             <a href="index.php"><button class="button btn-continue-shopping">
                                     Continue Shopping
-                                </button>
+                                </button></a>
                             <?php
                             if(isset($_SESSION["cart"])){ ?>
                            
@@ -212,9 +197,9 @@ if(isset($_POST['calsub'])){
                                 if(isset($_SESSION['user'])){
 
                                     ?>
-                                <button class="button btn-cart-to-checkout">
+                                <a href="checkout.php"><button class="button btn-cart-to-checkout">
                                     Checkout
-                                </button>
+                                </button></a>
                                 <?php }else { ?>
                                 <div class="control-cart">
                                 <span>Please <a href="login2.php">Login</a> or <a href="">Register</a> to continue checkout</span>
