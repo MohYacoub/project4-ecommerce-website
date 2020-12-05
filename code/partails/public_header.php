@@ -129,7 +129,13 @@ $_SESSION['page'] = $pageurl;
                                                                 </span>
                                                             </span>
                                                             <span class="product-quantity">
-                                                                (x1)
+                                                            <?php
+                                                            if(isset($_SESSION['qtyarr'])){
+                                                      echo "(x{$_SESSION['qtyarr'][$key]})";     
+                                                    }  else {
+                                                        echo '(x1)';
+                                                    }
+                                                    ?>
                                                             </span>
                                                             <div class="product-remove">
                                                                 <a href="<?php echo "delete_cart.php?key1=$key"; ?>"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
@@ -144,7 +150,27 @@ $_SESSION['page'] = $pageurl;
                                             <span class="total-title">Subtotal: </span>
                                             <span class="total-price">
                                                 <span class="Price-amount">
-                                                    $135
+                                                    <?php
+                                                    if(isset($_SESSION["cart"])){
+                                                        $cartarr3 = $_SESSION["cart"];
+                                                        foreach($cartarr3 as $key => $value){
+                                                    
+                                                         
+                                                         $valprice12 = $value['product_price'];
+                                                         $valprice22 = $value['special_price'];
+                                                     
+                                                         if(($valprice12 - $valprice22) < $valprice12 ){
+                                                             $protot2[] = $valprice22 ;
+                                                         }else{
+                                                             $protot2[] = $valprice12 ;
+                                                         }}
+                                                     
+                                                         $total2 = array_sum($protot2);
+                                                         $_SESSION['total']=$total2;
+
+                                                         echo $total2;
+                                                     }
+                                                    ?>
                                                 </span>
                                             </span>
                                         </div>

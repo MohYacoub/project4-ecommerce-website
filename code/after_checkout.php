@@ -1,8 +1,31 @@
 <?php
 session_start();
 include('partails/public_head.php');
-include('partails/public_header.php');
+include('admin/partials/connection.php');
+
+if(isset($_SESSION['thankyou'])){
+
+    
+    $cartarr = $_SESSION["cart"];
+    foreach($cartarr as $key => $value){
+    $order_id = $_SESSION['order_id'];
+    $pro_id = $value['product_id'];
+    $rr = $_SESSION['qtyarr'][$key];
+
+    $query_details = "INSERT INTO order_details (order_id,pro_id,qty) VALUES ('$order_id','$pro_id','$rr')";
+
+    $result_details = mysqli_query($conn,$query_details);
+    }
+    unset($_SESSION["cart"]);
+
+    // $qty[] = $_SESSION['qtyarr'];
+
+    
+    
 ?> 
+<?php
+include('partails/public_header.php');
+?>
 <div class="main-content main-content-checkout">
     <div class="container">
         <div class="row">
@@ -32,7 +55,7 @@ include('partails/public_header.php');
                     Nullam eget sem et eros laoreet rutrum.
                     Quisque sem ante, feugiat quis lorem in.
                 </div>
-                <a href="#" class="button btn-return">Return to Store</a>
+                <a href="index.php" class="button btn-return">Return to Store</a>
             </div>
         </div>
 
@@ -46,3 +69,8 @@ include('partails/public_header.php');
 include('partails/public_footer.php');
 
 ?>
+<?php
+} 
+else {
+    header('location:index.php');
+} ?>

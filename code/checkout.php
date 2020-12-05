@@ -3,45 +3,68 @@
 session_start();
 
 include('partails/public_head.php');
-include('partails/public_header.php');
-
+include('admin/partials/connection.php');
 ?> 
 
 <?php
 
 if(isset($_SESSION['user'])){
-$total = $_SESSION['total'];
+    if(isset($_SESSION['total1'])){
+        $total= $_SESSION['total1']; 
+     } elseif($_SESSION['total']){
+        $total= $_SESSION['total'];
+     }
+ 
 $name = $_SESSION['user'];
 $id = $_SESSION['cust_id'];
-$phone = $_SESSION['phone'] ;
-$address = $_SESSION['address'] ;
+$phone = $_SESSION['phone'];
+$address = $_SESSION['address'];
+$email = $_SESSION['email'];
 
-$query = "INSERT INTO orders(cust_id,order_address,order_total) VALUES ({$id},'$address',$total)";
-$result = mysqli_query($conn,$query);
+if(isset($_POST['pay'])){
+    if(isset($_SESSION['user'])){
+        if(isset($_SESSION['total1'])){
+            $total= $_SESSION['total1']; 
+         } elseif($_SESSION['total']){
+            $total= $_SESSION['total'];
+         }
+     
+$name = $_SESSION['user'];
+$id = $_SESSION['cust_id'];
+$phone = $_SESSION['phone'];
+$address = $_SESSION['address'];
+$email = $_SESSION['email'];
 
-// $query2 = "SELECT order_id FROM orders order by DESC LIMIT 1";
-// $result2 = mysqli_query($conn,$query2);
-// $row = mysqli_fetch_assoc($result2);
-// $orderid = $row['order_id'];
+    $username1 = $_POST['username'];
+    $email1 = $_POST['email'];
+    $phone1 = $_POST['phone'];
+    $address1 = $_POST['address'];
+    $country1 = $_POST['country'];
+    $postal1 = $_POST['postal_code'];
 
+    $query1 = "INSERT INTO orders(cust_id,order_address,order_country,postal_code,order_total) VALUES ({$id},'$address1','$country1','$postal1',$total)";
+    $result1 = mysqli_query($conn,$query1);
+        $query2 = "SELECT * FROM orders WHERE order_id = {$id}";
+    $result2 = mysqli_query($conn,$query2);
+    $row_order = mysqli_fetch_assoc($result2);
+    $order_idf = $row_order['order_id'];
+    $_SESSION['order_id'] = $order_idf;
+    // echo $_SESSION['order_id'];
+    // die();
+    $_SESSION['thankyou'] = 'Thank you';
+header('location:after_checkout.php');
+} 
+}
 
-// foreach($_SESSION['cart'] as $key => $value){
-
-//     // $pro_id = $value['pro_id'];
-//     // $qty = $value['qty'];
-
-//     $query3 = "INSERT INTO order_details(order_id,pro_id,qty) VALUES ($orderid,$pro_id,$qty)";
-//     $result3 = mysqli_query($conn,$query3);
-// }
-
-
-echo $name . $id . $phone . $address;
 } 
 else {
 
     header('location: login2.php');
     
 }
+?>
+<?php
+include('partails/public_header.php');
 ?>
 
 <div class="main-content main-content-checkout">
@@ -51,7 +74,7 @@ else {
                 <div class="breadcrumb-trail breadcrumbs">
                     <ul class="trail-items breadcrumb">
                         <li class="trail-item trail-begin">
-                            <a href="index-2.html">Home</a>
+                            <a href="index.php">Home</a>
                         </li>
                         <li class="trail-item trail-end active">
                             Checkout
@@ -63,7 +86,9 @@ else {
         <h3 class="custom_blog_title">
             Checkout
         </h3>
+        <form method="post" action="">
         <div class="checkout-wrapp">
+        
             <div class="shipping-address-form-wrapp">
                 <div class="shipping-address-form  checkout-form">
                     <div class="row-col-1 row-col">
@@ -71,23 +96,43 @@ else {
                             <h3 class="title-form">
                                 Shipping Address
                             </h3>
-                            <p class="form-row form-row-first">
-                                <label class="text">First name</label>
-                                <input title="first" type="text" class="input-text">
+                            <p class="form-row form-row">
+                                <label class="text">Username</label>
+                                <input value="<?php echo $name?>" title="first" type="text" class="input-text" name="username">
                             </p>
-                            <p class="form-row form-row-last">
-                                <label class="text">Last name</label>
-                                <input title="last" type="text" class="input-text">
+                            
+                            <p class="form-row form-row">
+                                <label class="text">Email</label>
+                                <input value="<?php echo $email?>" title="first" type="text" class="input-text" name="email">
                             </p>
-                          
                             <p class="form-row form-row-first">
                                 <label class="text">Your Phone</label>
-                                <input title="address" type="text" class="input-text">
+                                <input value="<?php echo $phone?>" title="address" type="text" name="phone" class="input-text">
                             </p>
                             <p class="form-row form-row-last">
                                 <label class="text">Address</label>
-                                <input title="address" type="text" class="input-text">
+                                <input value="<?php echo $address?>" title="address" type="text" class="input-text" name="address">
                             </p>
+                            <p class="form-row forn-row-col forn-row-col-1">
+                                <label class="text">Country</label>
+                                <select title="country" data-placeholder="United Kingdom" class="chosen-select" name="country" tabindex="1">
+                                    <option value="Jordan">Jordan</option>
+                                    <option value="Saudi Arabia">Saudi Arabia</option>
+                                    <option value="Egypt">Egypt</option>
+                                    <option value="Algeria">Lebanon</option>
+                                    <option value="American Samoa">UAE</option>
+                                    <option value="Andorra">kuwait</option>
+                                    <option value="United States">United States</option>
+                                    <option value="United Kingdom">United Kingdom</option>
+                                    </select>
+                            </p>
+                            <p class="form-row form-row-last">
+                                <label class="text">Postal code</label>
+                                <input title="zip" type="text" class="input-text" name="postal_code">
+                            </p>
+
+                                    
+
                         </div>
                         <div class="shipping-address">
                             <h3 class="title-form">
@@ -110,9 +155,9 @@ else {
                                 <?php
 
 
-$cartarr = $_SESSION["cart"];
-foreach($cartarr as $key => $value){
-    ?>
+                                $cartarr = $_SESSION["cart"];
+                                foreach($cartarr as $key => $value){
+                                ?>
 
                                 <li class="product-item-order">
                                     <div class="product-thumb">
@@ -149,7 +194,13 @@ foreach($cartarr as $key => $value){
                                     Total Price:
                                 </span>
                                 <span class="total-price">
-                                    $95
+                                    <?php
+                                    if(isset($_SESSION['total1'])){
+                                       echo $_SESSION['total1']; 
+                                    } elseif($_SESSION['total']){
+                                        echo $_SESSION['total'];
+                                    }
+                                    ?>
                                 </span>
                             </div>
                         </div>
@@ -158,12 +209,17 @@ foreach($cartarr as $key => $value){
             </div>
             <div class="payment-method-wrapp">
                 <div class="button-control">
-                    <a href="#" class="button btn-back-to-shipping">Back to shipping</a>
-                    <a href="#" class="button btn-pay-now">Pay now</a>
+                
+                    <a href="cart.php" class="button btn-back-to-shipping">Back to cart</a>
+                    <a href="after_checkout.php"><button class="button btn-pay-now" name="pay">
+                    Order now
+                                </button></a>
+                    <!-- <a href="after_checkout.php" class="button btn-pay-now">Pay now</a> -->
                 </div>
             </div>
 
         </div>
+        </form>
     </div>
 </div>
 
@@ -173,3 +229,20 @@ foreach($cartarr as $key => $value){
 include('partails/public_footer.php');
 
 ?>
+
+
+
+<!-- // $query2 = "SELECT order_id FROM orders order by DESC LIMIT 1";
+// $result2 = mysqli_query($conn,$query2);
+// $row = mysqli_fetch_assoc($result2);
+// $orderid = $row['order_id'];
+
+
+// foreach($_SESSION['cart'] as $key => $value){
+
+//     // $pro_id = $value['pro_id'];
+//     // $qty = $value['qty'];
+
+//     $query3 = "INSERT INTO order_details(order_id,pro_id,qty) VALUES ($orderid,$pro_id,$qty)";
+//     $result3 = mysqli_query($conn,$query3);
+// } --> 
