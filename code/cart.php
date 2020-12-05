@@ -8,6 +8,32 @@ include('partails/public_header.php');
 
 ?>
 
+                                      
+                                      
+                                      
+<?php
+
+if(isset($_POST['calsub'])){
+    $cartarr2 = $_SESSION["cart"];
+   foreach($cartarr2 as $key => $value){
+    $varinp = (int)$value['product_id'];
+    $inpinc = $_POST[$varinp];
+    
+    $valprice1 = $value['product_price'];
+    $valprice2 = $value['special_price'];
+
+    if(($valprice1 - $valprice2) < $valprice1 ){
+        $protot[] = $inpinc * $valprice2 ;
+    }else{
+        $protot[] = $inpinc * $valprice1 ;
+    }}
+
+    $total = array_sum($protot);
+}
+?>
+
+
+
 <div class="site-content">
     <main class="site-main  main-container no-sidebar">
         <div class="container">
@@ -36,7 +62,10 @@ include('partails/public_header.php');
                     </h3>
                     <div class="page-main-content">
                         <div class="shoppingcart-content">
-                            <form method='post' action='<?= $_SERVER['PHP_SELF']; ?>' class="cart-form">
+                        <?php 
+                            if(isset($_SESSION["cart"])){ ?>
+                            <form method='post' action='' class="cart-form">
+                            
                                 <table class="shop_table">
                                     <thead>
                                     <tr>
@@ -50,6 +79,7 @@ include('partails/public_header.php');
                                     </thead>
                                     <tbody>
                                       <?php 
+                                      
                                          $cartarr = $_SESSION["cart"];
                                          foreach($cartarr as $key => $value){
                                              ?>
@@ -73,7 +103,7 @@ include('partails/public_header.php');
                                                 <div class="control">
                                                   
                                                     <a type="submit" class="btn-number qtyminus quantity-minus" href="#">-</a>
-                                                    <input name="increment" type="text" data-step="1" data-min="0" value="1" title="Qty"
+                                                    <input name="<?php echo (int)$value['product_id']?>" type="text" data-step="1" data-min="0" value="1" title="Qty"
                                                     class="input-qty qty" size="4">
                                                     <a href="#" class="btn-number qtyplus quantity-plus">+</a>
                                                     
@@ -95,9 +125,6 @@ include('partails/public_header.php');
                                             echo"{$value['product_price']}" ;
                                         }
                                         ?>
-                                         
-                                    
-                                           
 													</span>
                                         </td>
                                     </tr>
@@ -111,11 +138,22 @@ include('partails/public_header.php');
                                                 <a href="#" class="button"></a>
                                             </div> -->
                                             <div class="order-total">
+                                               
+                                            <button  name="calsub" type="submit" class="button btn-cart-to-checkout">
+                                                Calculate Total 
+                                            </button>
+
 														<span class="title">
 															Total Price:
 														</span>
                                                 <span class="total-price">
-															$95 <?php  echo $_POST['increment'] ; ?>
+                                                            <?php 
+                                                            if(isset($_POST['calsub'])){
+                                                              
+                                                                echo $total ;
+                                                                
+                                                            }
+                                                             ?> 
 														</span>
                                             </div>
                                         </td>
@@ -123,14 +161,35 @@ include('partails/public_header.php');
                                          
                                 </table>
                             </form>
-                            <div class="control-cart">
+
+                            <?php }else{
+                                        echo "<h3>Your Cart is Empty<h3>";
+                                    }
+                                    
+                            ?>
+                             <div class="control-cart">
                                 <button class="button btn-continue-shopping">
                                     Continue Shopping
                                 </button>
+                            <?php
+                            if(isset($_SESSION["cart"])){ ?>
+                           
+                                
+                                <?php 
+                                if(isset($_SESSION['user'])){
+
+                                    ?>
                                 <button class="button btn-cart-to-checkout">
                                     Checkout
                                 </button>
+                                <?php }else { ?>
+                                <div class="control-cart">
+                                <span>Please <a href="">Login</a> or <a href="">Register</a> to continue checkout</span>
+
+                                <?PHP } ?>
+                                </div>
                             </div>
+                            <?PHP } ?>
                         </div>
                     </div>
                 </div>

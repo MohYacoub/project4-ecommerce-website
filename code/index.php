@@ -16,6 +16,7 @@ session_start();
  $cart_row=mysqli_fetch_assoc($cart_result);
 
  $new_item = array(
+    "product_id" => $cart_row['pro_id'],
     "product_image" => $cart_row['pro_image'],
     "product_name"  => $cart_row['pro_name'],
     "product_price" => $cart_row['pro_price'],
@@ -176,7 +177,7 @@ include('partails/public_header.php');
                                 <!-- product for best seller start here -->
 
                                 <?php
-                                $query_pro = "SELECT * FROM products";
+                                $query_pro = "SELECT * FROM products LIMIT 8 ";
                                 $result_pro = mysqli_query($conn, $query_pro);
                                 while ($pro_row = mysqli_fetch_assoc($result_pro)) {
                                     $price = $pro_row['pro_price'];
@@ -239,7 +240,7 @@ include('partails/public_header.php');
                                 <!-- product for new_arrivals end here -->
                                 <?php
                                 $query_new = "SELECT * FROM (
-                                    SELECT * FROM products ORDER BY pro_id DESC LIMIT 4
+                                    SELECT * FROM products ORDER BY pro_id DESC LIMIT 8
                                 ) sub
                                 ORDER BY pro_id ASC";
                                 $result_new = mysqli_query($conn, $query_new);
@@ -386,7 +387,7 @@ include('partails/public_header.php');
                             <div class="product-thumb">
                                     <div class="thumb-inner">
                                         <a href="#">
-                                            <img src="assets/images/1.png" alt="img">
+                                            <img src="assets/images/2.png" alt="img">
                                         </a>
                                     </div>
                                 </div>
@@ -413,7 +414,7 @@ include('partails/public_header.php');
                             <div class="product-thumb">
                                     <div class="thumb-inner">
                                         <a href="#">
-                                            <img src="assets/images/1.png" alt="img">
+                                            <img src="assets/images/2.png" alt="img">
                                         </a>
                                        
                                     </div>
@@ -436,18 +437,18 @@ include('partails/public_header.php');
                             </div>
                         </div>
                         <div class="product-item style-1 product-type-variable">
-                            <!-- <div class="product-inner equal-element"> -->
+                             <div class="product-inner equal-element">
                               
                             <div class="product-thumb">
                                     <div class="thumb-inner">
                                         <a href="#">
-                                            <img src="assets/images/1.png" alt="img">
+                                            <img src="assets/images/2.png" alt="img">
                                         </a>
                                        
                                     </div>
                                 </div>
                                
-                            <!-- </div> -->
+                            </div>
                         </div>
                     </div>
                 </div>

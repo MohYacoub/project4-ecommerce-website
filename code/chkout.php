@@ -38,6 +38,7 @@ echo $name . $id . $phone . $address;
 } 
 else {
 
-    echo "You cant Reach this page before you login";
+    header('location: login2.php')
+    
 }
 ?>

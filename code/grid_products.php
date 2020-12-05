@@ -10,6 +10,7 @@ if (isset($_GET['cartid'])) {
     $cart_result = mysqli_query($conn, $cart_query);
     $cart_row = mysqli_fetch_assoc($cart_result);
     $new_item = array(
+        "product_id" => $cart_row['pro_id'],
         "product_image" => $cart_row['pro_image'],
         "product_name" =>  $cart_row['pro_name'],
         "product_price" => $cart_row['pro_price'],
