@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 include('admin/partials/connection.php');
 
 ?>
@@ -13,8 +15,30 @@ include('partails/public_header.php');
                                       
 <?php
 
+
+if(isset($_SESSION["cart"])){
+    $cartarr3 = $_SESSION["cart"];
+    foreach($cartarr3 as $key => $value){
+
+     
+     $valprice12 = $value['product_price'];
+     $valprice22 = $value['special_price'];
+ 
+     if(($valprice12 - $valprice22) < $valprice12 ){
+         $protot2[] = $valprice22 ;
+     }else{
+         $protot2[] = $valprice12 ;
+     }}
+ 
+     $total2 = array_sum($protot2);
+     $_SESSION['total']=$total2;
+ }
+ ?>
+
+
+<?php 
 if(isset($_POST['calsub'])){
-    $cartarr2 = $_SESSION["cart"];
+   $cartarr2 = $_SESSION["cart"];
    foreach($cartarr2 as $key => $value){
     $varinp = (int)$value['product_id'];
     $inpinc = $_POST[$varinp];
@@ -29,6 +53,7 @@ if(isset($_POST['calsub'])){
     }}
 
     $total = array_sum($protot);
+    $_SESSION['total']=$total;
 }
 ?>
 
@@ -143,16 +168,24 @@ if(isset($_POST['calsub'])){
                                                 Calculate Total 
                                             </button>
 
-														<span class="title">
+                                                  
+                                                               	<span class="title">
 															Total Price:
 														</span>
                                                 <span class="total-price">
+                                                                
+                                               
                                                             <?php 
+                                                            if(!isset($total)){
+                                                            echo $total2 ;
+                                                        }else{
                                                             if(isset($_POST['calsub'])){
                                                               
                                                                 echo $total ;
                                                                 
                                                             }
+                                                        }
+                                                           
                                                              ?> 
 														</span>
                                             </div>
@@ -184,7 +217,7 @@ if(isset($_POST['calsub'])){
                                 </button>
                                 <?php }else { ?>
                                 <div class="control-cart">
-                                <span>Please <a href="">Login</a> or <a href="">Register</a> to continue checkout</span>
+                                <span>Please <a href="login2.php">Login</a> or <a href="">Register</a> to continue checkout</span>
 
                                 <?PHP } ?>
                                 </div>

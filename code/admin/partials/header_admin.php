@@ -1,6 +1,6 @@
 <?php
 // this page made by feras 
-session_start();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -1,4 +1,5 @@
-z<?php
+<?php
+session_start();
 
 include_once 'partials/connection.php'; ?>
 <?php

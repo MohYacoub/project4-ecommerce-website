@@ -1,7 +1,9 @@
 <?php 
+session_start();
 include_once './admin/partials/connection.php';
 include('partails/public_head.php');
 include('partails/public_header.php');
+
 ?>
 
 <?php
@@ -63,7 +65,7 @@ foreach ($searchTerms as $term) {
     $term = trim($term);
     if (!empty($term)) {
         $raw_results = "SELECT * FROM products 
-     WHERE (`pro_description` LIKE '%$term%') OR (`pro_name`  LIKE '%$term%') " or die(mysqli_error());
+     WHERE (`pro_description` LIKE '%$term%') OR (`pro_name`  LIKE '%$term%')  or die(mysqli_error()) ";
         // $searchTermBits[] = "pro_long_desc LIKE '%$term%'";
         
     }

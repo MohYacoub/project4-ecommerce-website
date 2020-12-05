@@ -1,6 +1,7 @@
 
 <?php
 //this page made by feras 
+session_start();
 
 ?>
 <?php

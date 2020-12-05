@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 include('admin/partials/connection.php');
 
 ?>
@@ -7,9 +7,6 @@ include('admin/partials/connection.php');
 <?php
 
 if(isset($_GET['cartid'])){
-
-
-session_start();
 
  $cart_query="SELECT * FROM products WHERE pro_id ={$_GET['cartid']}";   
  $cart_result=mysqli_query($conn, $cart_query);

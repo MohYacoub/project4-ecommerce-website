@@ -1,4 +1,5 @@
 <?php
+session_start();
 include('partails/public_head.php');
 include('partails/public_header.php');
 include('admin/partials/connection.php');
@@ -9,7 +10,7 @@ include('admin/partials/connection.php');
 <?php
 
 if(isset($_SESSION['user'])){
-$total = 50;
+$total = $_SESSION['total'];
 $name = $_SESSION['user'];
 $id = $_SESSION['cust_id'];
 $phone = $_SESSION['phone'] ;
@@ -38,7 +39,7 @@ echo $name . $id . $phone . $address;
 } 
 else {
 
-    header('location: login2.php')
+    header('location: login2.php');
     
 }
 ?>

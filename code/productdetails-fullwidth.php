@@ -1,6 +1,8 @@
 <?php
+session_start();
 include('partails/public_head.php');
 include('partails/public_header.php');
+
 
 ?>
 <div class="main-content main-content-details single no-sidebar">

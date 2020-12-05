@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 include_once './admin/partials/connection.php';
 $pageurl = $_SERVER["REQUEST_URI"];
 $_SESSION['page'] = $pageurl;

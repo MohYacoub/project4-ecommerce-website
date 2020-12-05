@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 include('admin/partials/connection.php');
 
 ?>
@@ -7,7 +7,7 @@ include('admin/partials/connection.php');
 $query2  = "SELECT * FROM customers";
 $result2 = mysqli_query($conn,$query2);
 if(isset($_POST['submit'])){
-	session_start();
+	
 	$username = strtolower($_POST['username']);
 	$pass = $_POST['password'];
 	if(!empty($username) && !empty($pass)){

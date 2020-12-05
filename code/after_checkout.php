@@ -1,4 +1,5 @@
 <?php
+session_start();
 include('partails/public_head.php');
 include('partails/public_header.php');
 ?> 

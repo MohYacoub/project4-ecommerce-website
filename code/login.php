@@ -1,68 +1,80 @@
 <?php
+session_start();
+include('partails/public_head.php');
+
+?> 
+
+
+<?php
 
 include('admin/partials/connection.php');
 
-// $errorcheck = "";
-$query  = "SELECT * FROM admins";
-$result = mysqli_query($conn,$query);
+
 if(isset($_POST['submit'])){
-	session_start();
-	$username = strtolower($_POST['username']);
+	$username = $_POST['username'];
 	$pass = $_POST['password'];
 	if(!empty($username) && !empty($pass)){
-    while($row = mysqli_fetch_assoc($result)){
-        if($username == $row["admin_name"] && $pass == $row["admin_password"] ){
+        //validate username for customer 
+    $cust_query="SELECT * FROM customers WHERE cust_name ='$username'";
+    $cust_result= mysqli_query($conn,$cust_query);
+    $cust_row=mysqli_fetch_assoc($cust_result);
+       //validate username for admin 
+    $admin_query="SELECT* FROM admins WHERE admin_name = '$username'";
+    $admin_result= mysqli_query($conn,$admin_query);
+    $admin_row=mysqli_fetch_assoc($admin_result);
+	if ($admin_row){
+        
+		if ($admin_row['admin_password']== $pass){
 			
-			if($row['admin_role'] == 'superadmin'){
-				$_SESSION['superadmin'] = $username;
-				header("Location:index.php");
-			}
-            else {
-				$_SESSION['admin'] = $username;
-			header("Location:index.php");
-			}
-		}}
-		}
-		else {
-			$errorcheck = "Please Fill the empty field";
-		}
-		} 
-?>
-<?php
-$query2  = "SELECT * FROM customers";
-$result2 = mysqli_query($conn,$query2);
-if(isset($_POST['submit'])){
-	session_start();
-	$username = strtolower($_POST['username']);
-	$pass = $_POST['password'];
-	if(!empty($username) && !empty($pass)){
-    while($row2 = mysqli_fetch_assoc($result2)){
-        if($username == $row2["cust_name"] && $pass== $row2["cust_password"] ){
+			    if($admin_row['admin_role']=='admin'){
+				  //admin page   
+				   $_SESSION['admin'] = $username;
+					header("Location:index.php");
+				}else{
+					
+				  $_SESSION['superadmin'] = $username;
+				  
+				  header("Location:index.php");
+				  
+				}	   
+			
+			}else{
+				$errorcheck = "password is not correct , please enter correct password";
+			 
+				 }	
+		
+		
+	}elseif($cust_row){
+		
+		if ($cust_row['cust_password']==$pass){   
 			$_SESSION['pass'] = $pass;
 			$_SESSION['user'] = $username;
-			$_SESSION['cust_id'] = $row2['cust_id'];
-			$_SESSION['phone'] = $row2['cust_phone'];
-			$_SESSION['address'] = $row2['cust_address'];
-            header("Location: index.php");}
-            else{
-				$errorcheck = "Incrorect Username Or Password";
-            }
-		}
-	}
-	else {
-		$errorcheck = "Please Fill the empty field";
-	}
-	}
+			$_SESSION['cust_id'] =  $cust_row['cust_id'];
+			$_SESSION['phone'] =  $cust_row['cust_phone'];
+			$_SESSION['address'] = $cust_row['cust_address'];
+			header("Location: index.php");
+		
+		
+		   }else{
 
+			$errorcheck ="password is not correct , please enter correct password";}
+
+	  }else{
+
+		$errorcheck = "username is not exist , please register ";
+	   }	
+		
+}else {
+			$errorcheck = "Please Fill the empty field";
+	}
+}
+		 
 ?>
 
-
-
-
 <?php
-include('partails/public_head.php');
+
 include('partails/public_header.php');
-?> 
+?>
 	<div>
 	<div class="main-content main-content-login">
 		<div class="container">

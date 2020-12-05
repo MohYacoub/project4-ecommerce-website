@@ -1,4 +1,7 @@
-<?php include('partials/connection.php'); ?>
+<?php
+session_start();
+
+include('partials/connection.php'); ?>
 <!-- MAIN CONTENT-->
 <?php include_once 'partials/header_admin.php'; ?>
 <div class="main-content">
