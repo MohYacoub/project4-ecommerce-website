@@ -87,20 +87,20 @@
         <!-- MENU SIDEBAR-->
         <aside class="menu-sidebar d-none d-lg-block">
             <div class="logo">
-                <!-- <a href="#">
+                <a href="#">
                     <img src="images/icon/logo.png" alt="Cool Admin" />
-                </a> -->
+                </a>
             </div>
             <div class="menu-sidebar__content js-scrollbar1">
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
                         <li class="has-sub">
                             <a class="js-arrow" href="index.php">
-                                <i class="fas fa-tachometer-alt"></i>Dashboard</a>
+                                <i class="fas fa-tachometer-alt"></i>  Dashboard</a>
                         </li>
                         <li>
                             <a href="../index.php">
-                            <i class="fas fa-home"></i>Back To Home Page</a>
+                            <i class="fas fa-home"></i>  Back To Home Page</a>
                         </li>
                         <?php
                         include('connection.php');
@@ -164,39 +164,19 @@
                                             <img src="images/icon/avatar-01.jpg" alt="John Doe" />
                                         </div> -->
                                         <div class="content">
-                                            <a class="js-acc-btn" href="#">Welcome <?php "HHHHH" #echo $_SESSION['superadmin']; ?> </a>
+                                            <a class="js-acc-btn" href="#">Welcome <?php
+                                            if(isset($_SESSION['superadmin'])){
+                                                echo $_SESSION['superadmin']; 
+                                            } elseif(isset($_SESSION['admin'])){
+                                                echo $_SESSION['admin']; 
+                                            }
+                                            
+                                            ?> </a>
                                         </div>
                                         <div class="account-dropdown js-dropdown">
-                                            <div class="info clearfix">
-                                                <!-- <div class="image">
-                                                    <a href="#">
-                                                        <img src="images/icon/avatar-01.jpg" alt="John Doe" />
-                                                    </a>
-                                                </div> -->
-                                                <div class="content">
-                                                    <h5 class="name">
-                                                        <a href="#"> <?php
-                                                                        echo $_SESSION['superadmin'];
-                                                                        ?> </a>
-                                                    </h5>
-                                                    <span class="email"></span>
-                                                </div>
-                                            </div>
-                                            <!-- <div class="account-dropdown__body">
-                                                <div class="account-dropdown__item">
-                                                    <a href="#">
-                                                        <!-- it goes to edit -this admin- page  -->
-                                            <!-- <i class="zmdi zmdi-account"></i>Account</a>
-                                                </div>
-                                                <div class="account-dropdown__item">
-                                                    <a href="#"> -->
-                                            <!-- it goes to manage admin page  -->
-                                            <!-- <i class="zmdi zmdi-settings"></i>Setting</a>
-                                                </div> -->
-
-                                            <!-- </div> -->
+                                        
                                             <div class="account-dropdown__footer">
-                                                <a href="logout.php">
+                                                <a href="../logout.php">
                                                     <i class="zmdi zmdi-power"></i>Logout</a>
                                             </div>
                                         </div>

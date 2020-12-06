@@ -82,7 +82,7 @@ echo " <h3 class='custom_blog_title'>{$cat_row['cat_name']}</h3>";
 }
 ?>
                     <div class="shop-top-control">
-                        <form class="select-item select-form">
+                        <!-- <form class="select-item select-form">
                             <span class="title">Sort</span>
                             <select title="sort" data-placeholder="12 Products/Page" class="chosen-select">
                                 <option value="1">12 Products/Page</option>
@@ -91,7 +91,7 @@ echo " <h3 class='custom_blog_title'>{$cat_row['cat_name']}</h3>";
                                 <option value="4">8 Products/Page</option>
                                 <option value="5">6 Products/Page</option>
                             </select>
-                        </form>
+                        </form> -->
                         <!-- <form class="filter-choice select-form">
                             <span class="title">Sort by</span>
                             <select title="sort-by" data-placeholder="Price: Low to High" class="chosen-select">
@@ -186,7 +186,7 @@ while ($row = mysqli_fetch_assoc($result)) { ?>
                                         <?php } ?>
                             </ul>
                         </div>
-                       <div class="widget widget-tags">
+                       <!-- <div class="widget widget-tags">
                             <h3 class="widgettitle">
                                 Popular Tags
                             </h3>
@@ -213,7 +213,7 @@ while ($row = mysqli_fetch_assoc($result)) { ?>
                                     <a href="#">Toys</a>
                                 </li>
                             </ul>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>

@@ -5,16 +5,18 @@ include('admin/partials/connection.php');
 ?>
 <?php
 include('partails/public_head.php');
-include('partails/public_header.php');
+
 
 ?>
 
 <?php 
+
 if(isset($_POST['calsub'])){
    $cartarr2 = $_SESSION["cart"];
    foreach($cartarr2 as $key => $value){
     $varinp = (int)$value['product_id'];
     $inpinc = $_POST[$varinp];
+    // global $qty;
     $qty[] = $inpinc;
     
     $valprice1 = $value['product_price'];
@@ -25,17 +27,23 @@ if(isset($_POST['calsub'])){
     }else{
         $protot[] = $inpinc * $valprice1 ;
     }}
+    
     $_SESSION['qtyarr'] = $qty; 
+    // global $firas;
+    // $firas = $_SESSION['qtyarr'];
     // if (!isset($_SESSION['qtyarr'])) {
     //     $qty1 = array();
     //     $_SESSION['qtyarr'] = $qty1;
     // }
     // array_push($_SESSION['qtyarr'], $qty);
     $total = array_sum($protot);
-    $_SESSION['total1']=$total;
+    $_SESSION['total']=$total;
 }
-?>
 
+?>
+<?php
+include('partails/public_header.php'); //from line 8
+?>
 
 
 <div class="site-content">
@@ -154,22 +162,23 @@ if(isset($_POST['calsub'])){
                                             </button>
 
                                                   
-                                                               	<span class="title">
-															Total Price:
-														</span>
+                                                               	
+															
+														
                                                 <span class="total-price">
                                                                 
                                                
                                                             <?php 
-                                                            if(!isset($total)){
-                                                            echo $total2 ;
-                                                        }else{
-                                                            if(isset($_POST['calsub'])){
+                                                        //     if(!isset($total)){
+                                                        //     echo $total2 ;
+                                                        // }else{
+                                                        //     if(isset($_POST['calsub'])){
                                                               
-                                                                echo $total ;
+                                                        //         echo $total ;
                                                                 
-                                                            }
-                                                        }
+                                                        //     }
+                                                        // }
+                                                        echo "$ {$_SESSION['total']}";
                                                            
                                                              ?> 
 														</span>

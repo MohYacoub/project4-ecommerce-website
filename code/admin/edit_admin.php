@@ -3,6 +3,13 @@ session_start();
 
 include_once 'partials/connection.php'; ?>
 
+
+<?php 
+
+if((isset($_SESSION['superadmin'])) || (isset($_SESSION['admin'])) ){
+   
+?>
+
 <?php
 
 $query = "select * from admins where admin_id = {$_GET['id']}";
@@ -146,4 +153,10 @@ if (isset($_POST['submit_edit_admin'])) {
 
 <?php
 include_once 'partials/footer_admin.php';
+?>
+
+<?php
+}else{
+    header('location:../index.php');
+}
 ?>

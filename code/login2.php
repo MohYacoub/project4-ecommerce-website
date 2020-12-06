@@ -49,7 +49,7 @@ include('partails/public_header.php');
 								<a href="index-2.html">Home</a>
 							</li>
 							<li class="trail-item trail-end active">
-								Authentication
+								LOGIN
 							</li>
 						</ul>
 					</div>
@@ -59,7 +59,7 @@ include('partails/public_header.php');
 				<div class="content-area col-lg-12 col-md-12 col-sm-12 col-xs-12">
 					<div class="site-main">
 						<h3 class="custom_blog_title">
-							Authentication
+							LOGIN
 						</h3>
 						<div class="customer_login">
 							<div class="row">

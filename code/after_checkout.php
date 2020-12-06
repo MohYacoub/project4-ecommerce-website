@@ -10,18 +10,15 @@ if(isset($_SESSION['thankyou'])){
     foreach($cartarr as $key => $value){
     $order_id = $_SESSION['order_id'];
     $pro_id = $value['product_id'];
-    $rr = $_SESSION['qtyarr'][$key];
+    $qtyres = $_SESSION['qtyarr'][$key];
 
-    $query_details = "INSERT INTO order_details (order_id,pro_id,qty) VALUES ('$order_id','$pro_id','$rr')";
+    $query_details = "INSERT INTO order_details (order_id,pro_id,qty) VALUES ('$order_id','$pro_id','$qtyres')";
 
     $result_details = mysqli_query($conn,$query_details);
     }
     unset($_SESSION["cart"]);
 
     // $qty[] = $_SESSION['qtyarr'];
-
-    
-    
 ?> 
 <?php
 include('partails/public_header.php');

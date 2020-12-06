@@ -2,6 +2,13 @@
 session_start();
 
 include('partials/connection.php'); ?>
+
+
+<?php 
+
+if((isset($_SESSION['superadmin'])) || (isset($_SESSION['admin'])) ){
+   
+?>
 <!-- MAIN CONTENT-->
 <?php include_once 'partials/header_admin.php'; ?>
 <div class="main-content">
@@ -18,37 +25,38 @@ include('partials/connection.php'); ?>
                                 <thead class="bg-info text-white">
                                     <tr>
                                         <th>Order ID</th>
-                                        <th>Created at</th>
-                                        <!-- <th>Updated at</th> -->
                                         <th>Customer ID</th>
-                                        <th>Order Address</th>
                                         <th>Order Total</th>
                                         <th>Product ID</th>
                                         <th>Quantity</th>
+                                        <th>Created at</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <?php
-                                $query  = "SELECT * FROM orders";
-                                $result = mysqli_query($conn,$query);
-                                $query1 = "SELECT * FROM order_details";
-                                $result1 = mysqli_query($conn,$query1);
+                              
+                                <?php  
+                                $query = "SELECT * FROM orders ";
+                                $result = mysqli_query($conn,$query) ;
                                 while($row = mysqli_fetch_assoc($result)){
-                                    echo "<tr>";
-                                        echo "<td>{$row['order_id']}</td>";
-                                        echo "<td>{$row['created_at']}</td>";
-                                        // echo "<td>{$row['updated_at']}</td>";
-                                        echo "<td>{$row['cust_id']}</td>";
-                                        echo "<td>{$row['order_address']}</td>";
-                                        echo "<td>{$row['order_total']}</td>";
-                                        while($row1 = mysqli_fetch_assoc($result1)){
-                                            echo "<td>{$row1['pro_id']}</td>";
-                                            echo "<td>{$row1['qty']}</td>";
-                                        }
-                                    echo "</tr>";
-                                }
-                                  
-                                ?>
+
+                                    $query2 = "SELECT * FROM order_details where order_id = {$row['order_id']} ";
+                                    $result2 = mysqli_query($conn,$query2);
+
+                                    while($row2 = mysqli_fetch_assoc($result2)){
+                                    ?>
+                              
+                            <tr>
+                            <td><?php echo "{$row['order_id']}"; ?> </td>
+                            <td><?php echo "{$row['cust_id']}"; ?></td>
+                            <td><?php echo "{$row['order_total']}"; ?></td>
+                            <td><?php echo "{$row2['pro_id']}"; ?></td>
+                            <td><?php echo "{$row2['qty']}"; ?></td>
+                            <td><?php echo "{$row2['created_at']}"; ?></td>
+                           
+                               </tr>
+
+                                <?php }} ?>
+
                                 </tbody>
                             </table>
                         </div>
@@ -66,3 +74,9 @@ include('partials/connection.php'); ?>
 <?php 
  include_once 'partials/footer_admin.php';
  ?>
+
+<?php
+}else{
+    header('location:../index.php');
+}
+?>

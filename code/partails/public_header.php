@@ -19,10 +19,10 @@ $_SESSION['page'] = $pageurl;
                     <ul class="header-user-links">
                         <?php
                         if (isset($_SESSION['user'])) {
-                            echo "<li><a><i class='fa fa-user'></i>Welcome  {$_SESSION['user']} </a><span>||  </span>";
-                            echo "<a href='logout.php'><i class='fa fa-sign-out'></i></i>Logout</a></li>";
+                            echo "<li><a href='your_profile.php'><i class='fa fa-user'></i>  Welcome  {$_SESSION['user']} </a><span>||  </span>";
+                            echo "<a href='logout.php'><i class='fa fa-sign-out'></i></i>  Logout</a></li>";
                         } elseif (isset($_SESSION['superadmin'])) {
-                            echo "<li><a><i class='fa fa-user'></i>Welcome  {$_SESSION['superadmin']} </a><span>||  </span>";
+                            echo "<li><a><i class='fa fa-user'></i>  Welcome  {$_SESSION['superadmin']} </a><span>||  </span>";
                             echo "<a href='./admin/index.php'><i class='fa fa-tachometer'></i>Dashboard</a><span>  ||  </span>";
                             echo "<a href='./logout.php'><i class='fa fa-sign-out'></i>Logout</a></li>";
                         } elseif (isset($_SESSION['admin'])) {
@@ -55,23 +55,10 @@ $_SESSION['page'] = $pageurl;
                     </div>
                     <div class="col-lg-7 col-sm-8 col-md-6 col-xs-5 col-ts-12">
                         <div class="block-search-block">
-                            <form class="form-search form-search-width-category">
+                            <form  method="get" action="./search.php" class="form-search form-search-width-category">
                                 <div class="form-content">
-                                    <!-- <div class="category">
-                                        <select title="cate" data-placeholder="All Categories" class="chosen-select" tabindex="1">
-
-                                            <?php
-                                            $queryallcat = "SELECT * FROM categories ";
-                                            $resultallcat = mysqli_query($conn, $queryallcat);
-                                            while ($cat_all = mysqli_fetch_assoc($resultallcat)) {
-                                            ?>
-
-                                                <option value="<?php echo "{$cat_all['cat_id']}"; ?>"><?php echo "{$cat_all['cat_name']}"; ?></option>
-                                            <?php } ?>
-                                        </select>
-                                    </div> -->
                                     <div class="inner">
-                                        <input type="text" class="input" name="s" value="" placeholder="Search here">
+                                        <input type="text" class="input" name="search" value="" placeholder="Search here">
                                     </div>
                                     <button class="btn-search" type="submit">
                                         <span class="icon-search"></span>
@@ -117,7 +104,7 @@ $_SESSION['page'] = $pageurl;
 
                                                     <li class="product-cart mini_cart_item">
                                                         <a href="#" class="product-media">
-                                                            <img src="<?php echo "admin/{$value['product_image']}" ?>" alt="img">
+                                                            <img src="<?php echo "admin/{$value['product_image']}" ?>" alt="<?php echo "{$value['product_name']}" ?>">
                                                         </a>
                                                         <div class="product-details">
                                                             <h5 class="product-name">
@@ -125,7 +112,17 @@ $_SESSION['page'] = $pageurl;
                                                             </h5>
                                                             <span class="product-price">
                                                                 <span class="price">
-                                                                    <span><?php echo "{$value['product_price']}" ?></span>
+                                                                    <span><?php
+                                                                    $valprice12 = $value['product_price'];
+                                                                    $valprice22 = $value['special_price'];
+                                                                     if(($valprice12 - $valprice22) < $valprice12 ){
+                                                                        echo $valprice22 ;
+                                                                    }else{
+                                                                        echo $valprice12 ;
+                                                                    }
+                                                                    
+
+                                                                    // echo "{$value['special_price']}" ?></span>
                                                                 </span>
                                                             </span>
                                                             <span class="product-quantity">
@@ -146,11 +143,9 @@ $_SESSION['page'] = $pageurl;
                                             } ?>
 
                                         </ul>
+                                        
                                         <div class="subtotal">
-                                            <span class="total-title">Subtotal: </span>
-                                            <span class="total-price">
-                                                <span class="Price-amount">
-                                                    <?php
+                                        <?php
                                                     if(isset($_SESSION["cart"])){
                                                         $cartarr3 = $_SESSION["cart"];
                                                         foreach($cartarr3 as $key => $value){
@@ -166,11 +161,48 @@ $_SESSION['page'] = $pageurl;
                                                          }}
                                                      
                                                          $total2 = array_sum($protot2);
-                                                         $_SESSION['total']=$total2;
+                                                         if(!isset($_SESSION['total'])){
+                                                         $_SESSION['total']=$total2;}}
+                                                         ?>
+                                            <span class="total-title">Subtotal: </span>
+                                            <span class="total-price">
+                                                <span class="Price-amount">
+                                                    
+                                                         <?php
+                                                        if(isset($_SESSION['total'])){
+                                                         echo $_SESSION['total'];}
+                                                         
+                                                        //  if(isset($_SESSION['qtyarr'])){
 
-                                                         echo $total2;
-                                                     }
+                                                        //         $_SESSION['total1']=$total;
+                                                                
+                                                        //         echo $total;
+                                                                
+                                                        //  }
+                                                        //  elseif(isset($total)) {
+                                                        //         echo $total;
+                                                        //     } else{
+                                                        //     echo $total2;
+                                                        // }
+                                                        // }
+                                                        //  $total2 = array_sum($protot2);
+                                                        //  $_SESSION['total']=$total2;
+                                                        //  if(isset($_SESSION['qtyarr'])){
+
+                                                        //     $_SESSION['total1']=$total;
+                                                        //     echo $total;
+                                                        //  } else{
+                                                        //  $total2 = array_sum($protot2);
+                                                        //  $_SESSION['total']=$total2;
+                                                        //  echo $total2;
+                                                        // }
+                                                    //  }
+                                                     else {
+                                                        echo "Your cart is empty";
+                                                    } 
                                                     ?>
+                                                    
+
                                                 </span>
                                             </span>
                                         </div>
@@ -185,65 +217,13 @@ $_SESSION['page'] = $pageurl;
                                     </div>
                                 </div>
                             </div>
-                            <div class="block-account block-header moorabi-dropdown">
-                                <a href="javascript:void(0);" data-moorabi="moorabi-dropdown">
+                            <!-- <div class="block-account block-header moorabi-dropdown">
+                                <a href="your_profile.php" data-moorabi="moorabi-dropdown">
                                     <span class="flaticon-profile"></span>
                                 </a>
-                                <div class="header-account moorabi-submenu">
-                                    <div class="header-user-form-tabs">
-                                        <ul class="tab-link">
-                                            <li class="active">
-                                                <a data-toggle="tab" aria-expanded="true" href="#header-tab-login">Login</a>
-                                            </li>
-                                            <li>
-                                                <a data-toggle="tab" aria-expanded="true" href="#header-tab-rigister">Register</a>
-                                            </li>
-                                        </ul>
-                                        <div class="tab-container">
-                                            <div id="header-tab-login" class="tab-panel active">
-                                                <form method="post" class="login form-login">
-                                                    <p class="form-row form-row-wide">
-                                                        <input type="email" placeholder="Email" class="input-text">
-                                                    </p>
-                                                    <p class="form-row form-row-wide">
-                                                        <input type="password" class="input-text" placeholder="Password">
-                                                    </p>
-                                                    <p class="form-row">
-                                                        <label class="form-checkbox">
-                                                            <input type="checkbox" class="input-checkbox">
-                                                            <span>
-                                                                Remember me
-                                                            </span>
-                                                        </label>
-                                                        <input type="submit" class="button" value="Login">
-                                                    </p>
-                                                    <p class="lost_password">
-                                                        <a href="#">Lost your password?</a>
-                                                    </p>
-                                                </form>
-                                            </div>
-                                            <div id="header-tab-rigister" class="tab-panel">
-                                                <form method="post" class="register form-register">
-                                                    <p class="form-row form-row-wide">
-                                                        <input type="email" placeholder="Email" class="input-text">
-                                                    </p>
-                                                    <p class="form-row form-row-wide">
-                                                        <input type="password" class="input-text" placeholder="Password">
-                                                    </p>
-                                                    <p class="form-row">
-                                                        <input type="submit" class="button" value="Register">
-                                                    </p>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <a class="menu-bar mobile-navigation menu-toggle" href="#">
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                            </a>
+                               
+                            </div> -->
+                            
                         </div>
                     </div>
                 </div>

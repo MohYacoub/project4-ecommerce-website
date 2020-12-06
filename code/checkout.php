@@ -9,11 +9,8 @@ include('admin/partials/connection.php');
 <?php
 
 if(isset($_SESSION['user'])){
-    if(isset($_SESSION['total1'])){
-        $total= $_SESSION['total1']; 
-     } elseif($_SESSION['total']){
-        $total= $_SESSION['total'];
-     }
+    
+    $total = $_SESSION['total'];
  
 $name = $_SESSION['user'];
 $id = $_SESSION['cust_id'];
@@ -22,18 +19,7 @@ $address = $_SESSION['address'];
 $email = $_SESSION['email'];
 
 if(isset($_POST['pay'])){
-    if(isset($_SESSION['user'])){
-        if(isset($_SESSION['total1'])){
-            $total= $_SESSION['total1']; 
-         } elseif($_SESSION['total']){
-            $total= $_SESSION['total'];
-         }
-     
-$name = $_SESSION['user'];
-$id = $_SESSION['cust_id'];
-$phone = $_SESSION['phone'];
-$address = $_SESSION['address'];
-$email = $_SESSION['email'];
+    
 
     $username1 = $_POST['username'];
     $email1 = $_POST['email'];
@@ -44,19 +30,20 @@ $email = $_SESSION['email'];
 
     $query1 = "INSERT INTO orders(cust_id,order_address,order_country,postal_code,order_total) VALUES ({$id},'$address1','$country1','$postal1',$total)";
     $result1 = mysqli_query($conn,$query1);
-        $query2 = "SELECT * FROM orders WHERE order_id = {$id}";
+
+    
+    $query2 = "SELECT * FROM orders order by order_id DESC LIMIT 1";
     $result2 = mysqli_query($conn,$query2);
     $row_order = mysqli_fetch_assoc($result2);
     $order_idf = $row_order['order_id'];
     $_SESSION['order_id'] = $order_idf;
-    // echo $_SESSION['order_id'];
-    // die();
+    
     $_SESSION['thankyou'] = 'Thank you';
 header('location:after_checkout.php');
 } 
 }
 
-} 
+
 else {
 
     header('location: login2.php');
@@ -181,7 +168,16 @@ include('partails/public_header.php');
                                             echo"{$value['product_price']}" ;
                                         }
                                         ?>
-                                         <span class="count">x1</span>
+                                         <span class="count">
+                                          <?php
+                                            if(isset($_SESSION['qtyarr'])){
+                                              echo "(x{$_SESSION['qtyarr'][$key]})";     
+                                                    }  
+                                                    else {
+                                                        echo '(x1)';
+                                                    }
+                                                    ?>
+                                                    </span>
                                         <?php } ?>
                                            
                                         </div>
@@ -195,11 +191,7 @@ include('partails/public_header.php');
                                 </span>
                                 <span class="total-price">
                                     <?php
-                                    if(isset($_SESSION['total1'])){
-                                       echo $_SESSION['total1']; 
-                                    } elseif($_SESSION['total']){
-                                        echo $_SESSION['total'];
-                                    }
+                                   echo "$ $total" ;
                                     ?>
                                 </span>
                             </div>
@@ -231,18 +223,3 @@ include('partails/public_footer.php');
 ?>
 
 
-
-<!-- // $query2 = "SELECT order_id FROM orders order by DESC LIMIT 1";
-// $result2 = mysqli_query($conn,$query2);
-// $row = mysqli_fetch_assoc($result2);
-// $orderid = $row['order_id'];
-
-
-// foreach($_SESSION['cart'] as $key => $value){
-
-//     // $pro_id = $value['pro_id'];
-//     // $qty = $value['qty'];
-
-//     $query3 = "INSERT INTO order_details(order_id,pro_id,qty) VALUES ($orderid,$pro_id,$qty)";
-//     $result3 = mysqli_query($conn,$query3);
-// } --> 

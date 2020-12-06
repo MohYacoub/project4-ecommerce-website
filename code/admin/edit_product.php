@@ -4,6 +4,13 @@ session_start();
 include('partials/connection.php');
 ?>
 
+<?php 
+
+if((isset($_SESSION['superadmin'])) || (isset($_SESSION['admin'])) ){
+   
+?>
+
+
 <?php
 $id = $_GET['id'];
 $query = "select * from products where pro_id = {$_GET['id']}";
@@ -201,4 +208,11 @@ if (isset($_POST['submit'])) {
 <!-- END MAIN CONTENT-->
 <?php
 include_once 'partials/footer_admin.php';
+?>
+
+
+<?php
+}else{
+    header('location:../index.php');
+}
 ?>

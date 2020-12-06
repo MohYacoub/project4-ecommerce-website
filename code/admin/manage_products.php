@@ -2,6 +2,13 @@
 session_start();
 include_once 'partials/connection.php'; ?>
 
+
+<?php 
+
+if((isset($_SESSION['superadmin'])) || (isset($_SESSION['admin'])) ){
+   
+?>
+
 <?php
 if (isset($_POST['submit'])) {
     if ((!empty($_POST['product']))  && (!empty($_POST['description']))  && (!empty($_POST['tags']))  && (!empty($_POST['price']))  && (!empty($_POST['special_price']))  && (!empty($_POST['category'])) && (!empty($_FILES['image']['name']))) {
@@ -246,3 +253,10 @@ include_once 'partials/header_admin.php';
     <?php
     include_once 'partials/footer_admin.php';
     ?>
+
+    
+<?php
+}else{
+    header('location:../index.php');
+}
+?>

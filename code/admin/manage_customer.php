@@ -2,7 +2,16 @@
 session_start();
 
 include_once 'partials/connection.php'; ?>
+
+<?php 
+
+if((isset($_SESSION['superadmin'])) || (isset($_SESSION['admin'])) ){
+   
+?>
+
 <?php
+
+
 
 // make the action when user click on Save Button
 if (isset($_POST['submit_create_customer'])) {
@@ -205,4 +214,11 @@ if (isset($_POST['submit_create_customer'])) {
 <!-- END MAIN CONTENT-->
 <?php
 include_once 'partials/footer_admin.php';
+?>
+
+
+<?php
+}else{
+    header('location:../index.php');
+}
 ?>

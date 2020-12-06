@@ -3,6 +3,13 @@ session_start();
 
 include_once 'partials/connection.php'; ?>
 
+<?php 
+
+if((isset($_SESSION['superadmin'])) || (isset($_SESSION['admin'])) ){
+   
+?>
+
+
 <?php
 $query = "select * from categories where cat_id = {$_GET['id']}";
 $result = mysqli_query($conn, $query);
@@ -136,4 +143,11 @@ if (isset($_POST['submit_edit_category'])) {
 
 <?php
 include_once 'partials/footer_admin.php';
+?>
+
+
+<?php
+}else{
+    header('location:../index.php');
+}
 ?>

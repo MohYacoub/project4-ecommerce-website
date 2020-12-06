@@ -4,6 +4,8 @@ include('admin/partials/connection.php');
 
 ?>
 
+
+<!-- start coding for cart  -->
 <?php
 
 if(isset($_GET['cartid'])){
@@ -45,20 +47,19 @@ include('partails/public_header.php');
                     <div class="slider-inner equal-element">
                         <div class="container">
                             <div class="slider-infor">
-                                <h5 class="title-small">
-                                    Sale up to 40% off!
+                                <h1 style="color:#ed71a3" class="title-big">
+                                children 
+                                </h1>
+                                <h5 class="title-big">
+                                are our real investment
                                 </h5>
-                                <h3 class="title-big">
-                                    In stock with<br />
-                                    4 colors
-                                </h3>
-                                <div class="price">
+                                <!-- <div class="price">
                                     New Price:
                                     <span class="number-price">
                                         $25.00
                                     </span>
-                                </div>
-                                <a href="#" class="button btn-shop-the-look bgroud-style">Shop now</a>
+                                </div> -->
+                                <a href="grid_products.php" class="button btn-shop-the-look bgroud-style">Shop now</a>
                             </div>
                         </div>
                     </div>
@@ -68,19 +69,20 @@ include('partails/public_header.php');
                         <div class="container">
                             <div class="slider-infor">
                                 <h5 class="title-small">
-                                    Start weekend off!
+                                    Sale Up To 50%
                                 </h5>
                                 <h3 class="title-big">
-                                    Huge sale<br />
-                                    Up to 75% Off
+                                Look Inside a 
+                                <br />
+                                Montessori Category
                                 </h3>
                                 <div class="when-code">
                                     When Use Code:
                                     <span class="number-code">
-                                        MOORABI
+                                        TOYZEE2020
                                     </span>
                                 </div>
-                                <a href="#" class="button btn-view-promotion bgroud-style">VIEW ALL</a>
+                                <a href="grid_products.php?catid=13" class="button btn-view-promotion bgroud-style">VIEW ALL</a>
                             </div>
                         </div>
                     </div>
@@ -90,19 +92,17 @@ include('partails/public_header.php');
                         <div class="container">
                             <div class="slider-infor">
                                 <h5 class="title-small">
-                                    Make your style!
+                                    Learn and fun!
                                 </h5>
                                 <h3 class="title-big">
-                                    Let’s create<br />
-                                    Your own style
+                                    Let’s play<br />
+                                    some awesome games
                                 </h3>
                                 <div class="price">
-                                    Template Price:
-                                    <span class="number-price">
-                                        $89.00
-                                    </span>
+                                    start shop NOW!
+                                   
                                 </div>
-                                <a href="#" class="button btn-lets-create bgroud-style">Let’s Create</a>
+                                <a href="#" class="button btn-lets-create bgroud-style">Let’s play</a>
                             </div>
                         </div>
                     </div>
@@ -196,7 +196,7 @@ include('partails/public_header.php');
                                                 <div class="product-thumb">
                                                     <div class="thumb-inner">
                                                         <a href="<?php echo "productdetails.php?proid={$pro_row['pro_id']}" ?>">
-                                                            <img src="admin/<?php echo $pro_row['pro_image']; ?>" alt="img">
+                                                            <img src="admin/<?php echo $pro_row['pro_image']; ?>" alt="<?php echo $pro_row['pro_name']; ?>">
                                                         </a>
                                                     </div>
                                                 </div>
@@ -258,7 +258,7 @@ include('partails/public_header.php');
                                                 <div class="product-thumb">
                                                     <div class="thumb-inner">
                                                         <a href="<?php echo "productdetails.php?proid={$new_row['pro_id']}" ?>">
-                                                            <img src="admin/<?php echo $new_row['pro_image']; ?>" alt="img">
+                                                            <img src="admin/<?php echo $new_row['pro_image']; ?>" alt="<?php echo $pro_row['pro_name']; ?>">
                                                         </a>
                                                     </div>
                                                 </div>

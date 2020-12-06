@@ -4,6 +4,14 @@ session_start();
 include_once 'partials/connection.php';
 ?>
 
+<?php 
+
+if(!isset($_SESSION['superadmin'])){
+    header('location:../index.php');
+}
+
+?>
+
 <?php
 if (isset($_POST['submit_create_admin'])) {
     if ((!empty($_POST['admin_name'])) && (!empty($_POST['admin_password'])) && (!empty($_POST['admin_email']))) {
