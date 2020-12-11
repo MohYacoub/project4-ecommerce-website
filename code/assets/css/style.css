@@ -258,6 +258,10 @@ table tr td:last-child {
 table tr:last-child td, table tr:last-child th {
 	border-bottom: none;
 }
+
+
+
+
 /*----------------------------Auto Clear--------------------------------*/
 @media (min-width: 1500px) {
 	.auto-clear .col-bg-1:nth-child(12n+1) {
@@ -11433,3 +11437,4 @@ a:hover, a:focus, a:active,
 .product-item .product-inner img {
 	width: 100%;
 }
+

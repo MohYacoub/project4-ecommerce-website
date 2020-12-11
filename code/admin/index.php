@@ -24,8 +24,8 @@ include('partials/header_admin.php');
                             <div class="col-md-12">
                                 <div class="overview-wrap">
                                     <h2 class="title-1">overview</h2>
-                                    <button class="au-btn au-btn-icon au-btn--blue">
-                                        <i class="zmdi zmdi-plus"></i>add item</button>
+                                   
+                                      
                                 </div>
                             </div>
                         </div>
@@ -37,13 +37,25 @@ include('partials/header_admin.php');
                                             <div class="icon">
                                                 <i class="zmdi zmdi-account-o"></i>
                                             </div>
+                                           
                                             <div class="text">
-                                                <h2>10368</h2>
-                                                <span>members online</span>
+                                                <h2>
+                                                
+                                                <?php 
+                                                
+                                                $querycustnum  = "select * from customers";
+                                                $resultcustnum = mysqli_query($conn,$querycustnum);
+                                                $res = mysqli_num_rows($resultcustnum);
+                                                echo $res;
+
+                                                ?>
+                                                
+                                                </h2>
+                                                <span>members </span>
                                             </div>
                                         </div>
-                                        <div class="overview-chart">
-                                            <canvas id="widgetChart1"></canvas>
+                                        <div style="height:25px;">
+                                          
                                         </div>
                                     </div>
                                 </div>
@@ -56,12 +68,27 @@ include('partials/header_admin.php');
                                                 <i class="zmdi zmdi-shopping-cart"></i>
                                             </div>
                                             <div class="text">
-                                                <h2>388,688</h2>
-                                                <span>items solid</span>
+                                                <h2>
+                                                <?php 
+                                                  
+                                                $queryqtypro  = "SELECT * FROM order_details";
+                                                $resultqtypro = mysqli_query($conn,$queryqtypro);
+
+                                               $sum = 0;
+                                              
+                                                while($rowqty = mysqli_fetch_assoc($resultqtypro)){
+
+                                                    $sum += $rowqty['qty'];
+                                                }
+                                                
+                                                echo $sum ;
+
+                                                ?>
+                                                </h2>
+                                                <span>Products solid</span>
                                             </div>
                                         </div>
-                                        <div class="overview-chart">
-                                            <canvas id="widgetChart2"></canvas>
+                                        <div style="height:25px;">
                                         </div>
                                     </div>
                                 </div>
@@ -74,12 +101,30 @@ include('partials/header_admin.php');
                                                 <i class="zmdi zmdi-calendar-note"></i>
                                             </div>
                                             <div class="text">
-                                                <h2>1,086</h2>
-                                                <span>this week</span>
+                                                <h2>
+                                                
+
+                                                <?php 
+                                                  
+                                                  $querytotord  = "SELECT * FROM orders";
+                                                  $resulttotord = mysqli_query($conn,$querytotord);
+  
+                                                 $sum2 = 0;
+                                                
+                                                  while($rowqty = mysqli_fetch_assoc($resulttotord)){
+  
+                                                     $sum2 += 1;
+                                                  }
+                                                  
+                                                  echo $sum2 ;
+                                                  ?>
+                                                
+                                                </h2>
+                                                <span>Total Orders</span>
                                             </div>
                                         </div>
-                                        <div class="overview-chart">
-                                            <canvas id="widgetChart3"></canvas>
+                                        <div style="height:25px;">
+                                          
                                         </div>
                                     </div>
                                 </div>
@@ -92,88 +137,40 @@ include('partials/header_admin.php');
                                                 <i class="zmdi zmdi-money"></i>
                                             </div>
                                             <div class="text">
-                                                <h2>$1,060,386</h2>
+                                                <h2>$
+                                                
+                                                <?php 
+                                                  
+                                                  $querytotmony  = "SELECT * FROM orders";
+                                                  $resulttotmony = mysqli_query($conn,$querytotmony);
+  
+                                                  
+                                                 $sumtot = 0;
+                                                
+                                                  while($rowtotmony = mysqli_fetch_assoc($resulttotmony)){
+  
+                                                      $sumtot += $rowtotmony['order_total'];
+                                                  }
+                                                  
+                                                  echo $sumtot ;
+  
+                                                  ?>
+                                                
+                                                </h2>
                                                 <span>total earnings</span>
                                             </div>
                                         </div>
-                                        <div class="overview-chart">
-                                            <canvas id="widgetChart4"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div class="au-card recent-report">
-                                    <div class="au-card-inner">
-                                        <h3 class="title-2">recent reports</h3>
-                                        <div class="chart-info">
-                                            <div class="chart-info__left">
-                                                <div class="chart-note">
-                                                    <span class="dot dot--blue"></span>
-                                                    <span>products</span>
-                                                </div>
-                                                <div class="chart-note mr-0">
-                                                    <span class="dot dot--green"></span>
-                                                    <span>services</span>
-                                                </div>
-                                            </div>
-                                            <div class="chart-info__right">
-                                                <div class="chart-statis">
-                                                    <span class="index incre">
-                                                        <i class="zmdi zmdi-long-arrow-up"></i>25%</span>
-                                                    <span class="label">products</span>
-                                                </div>
-                                                <div class="chart-statis mr-0">
-                                                    <span class="index decre">
-                                                        <i class="zmdi zmdi-long-arrow-down"></i>10%</span>
-                                                    <span class="label">services</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="recent-report__chart">
-                                            <canvas id="recent-rep-chart"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="au-card chart-percent-card">
-                                    <div class="au-card-inner">
-                                        <h3 class="title-2 tm-b-5">char by %</h3>
-                                        <div class="row no-gutters">
-                                            <div class="col-xl-6">
-                                                <div class="chart-note-wrap">
-                                                    <div class="chart-note mr-0 d-block">
-                                                        <span class="dot dot--blue"></span>
-                                                        <span>products</span>
-                                                    </div>
-                                                    <div class="chart-note mr-0 d-block">
-                                                        <span class="dot dot--red"></span>
-                                                        <span>services</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-xl-6">
-                                                <div class="percent-chart">
-                                                    <canvas id="percent-chart"></canvas>
-                                                </div>
-                                            </div>
+                                        <div style="height:25px;">
+                                           
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                        
+                       
                         
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="copyright">
-                                    <p>Copyright © 2018 Colorlib. All rights reserved. Template by <a href="https://colorlib.com">Colorlib</a>.</p>
-                                </div>
-                            </div>
-                        </div>
+                       
                     </div>
                 </div>
             </div>

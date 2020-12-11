@@ -154,24 +154,15 @@ include_once 'partials/header_admin.php';
 
                                     <div class="row form-group">
                                         <div class="col col-md-3">
-                                            <label for="file-multiple-input" class=" form-control-label">Upload Product Image</label>
-                                        </div>
-                                        <div class="col-12 col-md-9">
-                                            <input type="file" id="file-multiple-input" name="image" multiple="" class="form-control-file">
-                                        </div>
-                                    </div>
-
-                                    <div class="row form-group">
-                                        <div class="col col-md-3">
                                             <label for="select" class=" form-control-label">Category</label>
                                         </div>
                                         <div class="col-12 col-md-9">
                                             <select name="category" id="select" class="form-control">
                                                 <?php
                                                 // if(isset($_POST['submit_Category'])){
-                                                $query  = "select * from categories";
-                                                $result = mysqli_query($conn, $query);
-                                                while ($row = mysqli_fetch_assoc($result)) {
+                                                $querycat1  = "select * from categories";
+                                                $resultcat1 = mysqli_query($conn, $querycat1);
+                                                while ($row = mysqli_fetch_assoc($resultcat1)) {
                                                     $idd = $row['cat_id'];
                                                     $catname = $row['cat_name'];
                                                     echo "<option value='$idd'>$catname</option>";
@@ -180,6 +171,26 @@ include_once 'partials/header_admin.php';
                                             </select>
                                         </div>
                                     </div>
+
+                                    <div class="row form-group">
+                                        <div class="col col-md-3">
+                                            <label for="text-input" class=" form-control-label">Filter By Year</label>
+                                        </div>
+                                        <div class="col-12 col-md-9">
+                                            <input type="text" id="text-input" name="Filter By Year" placeholder="Filter By Years" class="form-control">
+                                        </div>
+                                    </div>
+
+                                    <div class="row form-group">
+                                        <div class="col col-md-3">
+                                            <label for="file-multiple-input" class=" form-control-label">Upload Product Image</label>
+                                        </div>
+                                        <div class="col-12 col-md-9">
+                                            <input type="file" id="file-multiple-input" name="image" multiple="" class="form-control-file">
+                                        </div>
+                                    </div>
+
+                                  
                                     <div class="row form-group">
                                         <div class="col col-md-3">
                                         </div>

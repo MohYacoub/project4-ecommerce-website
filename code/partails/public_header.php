@@ -55,7 +55,7 @@ $_SESSION['page'] = $pageurl;
                     </div>
                     <div class="col-lg-7 col-sm-8 col-md-6 col-xs-5 col-ts-12">
                         <div class="block-search-block">
-                            <form  method="get" action="./search.php" class="form-search form-search-width-category">
+                            <form method="get" action="./search.php" class="form-search form-search-width-category">
                                 <div class="form-content">
                                     <div class="inner">
                                         <input type="text" class="input" name="search" value="" placeholder="Search here">
@@ -113,26 +113,27 @@ $_SESSION['page'] = $pageurl;
                                                             <span class="product-price">
                                                                 <span class="price">
                                                                     <span><?php
-                                                                    $valprice12 = $value['product_price'];
-                                                                    $valprice22 = $value['special_price'];
-                                                                     if(($valprice12 - $valprice22) < $valprice12 ){
-                                                                        echo $valprice22 ;
-                                                                    }else{
-                                                                        echo $valprice12 ;
-                                                                    }
-                                                                    
+                                                                            $valprice12 = $value['product_price'];
+                                                                            $valprice22 = $value['special_price'];
+                                                                            if (($valprice12 - $valprice22) < $valprice12) {
+                                                                                echo $valprice22;
+                                                                            } else {
+                                                                                echo $valprice12;
+                                                                            }
 
-                                                                    // echo "{$value['special_price']}" ?></span>
+
+                                                                            // echo "{$value['special_price']}" 
+                                                                            ?></span>
                                                                 </span>
                                                             </span>
                                                             <span class="product-quantity">
-                                                            <?php
-                                                            if(isset($_SESSION['qtyarr'])){
-                                                      echo "(x{$_SESSION['qtyarr'][$key]})";     
-                                                    }  else {
-                                                        echo '(x1)';
-                                                    }
-                                                    ?>
+                                                                <?php
+                                                                if (isset($_SESSION['qtyarr'][$key])) {
+                                                                    echo "(x{$_SESSION['qtyarr'][$key]})";
+                                                                } else {
+                                                                    echo '(x1)';
+                                                                }
+                                                                ?>
                                                             </span>
                                                             <div class="product-remove">
                                                                 <a href="<?php echo "delete_cart.php?key1=$key"; ?>"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
@@ -143,65 +144,82 @@ $_SESSION['page'] = $pageurl;
                                             } ?>
 
                                         </ul>
-                                        
+
                                         <div class="subtotal">
-                                        <?php
-                                                    if(isset($_SESSION["cart"])){
-                                                        $cartarr3 = $_SESSION["cart"];
-                                                        foreach($cartarr3 as $key => $value){
-                                                    
-                                                         
-                                                         $valprice12 = $value['product_price'];
-                                                         $valprice22 = $value['special_price'];
-                                                     
-                                                         if(($valprice12 - $valprice22) < $valprice12 ){
-                                                             $protot2[] = $valprice22 ;
-                                                         }else{
-                                                             $protot2[] = $valprice12 ;
-                                                         }}
-                                                     
-                                                         $total2 = array_sum($protot2);
-                                                         if(!isset($_SESSION['total'])){
-                                                         $_SESSION['total']=$total2;}}
-                                                         ?>
+                                            <?php
+                                            if (isset($_SESSION["cart"])) {
+                                                $cartarr3 = $_SESSION["cart"];
+                                                foreach ($cartarr3 as $key => $value) {
+                                                    $valprice12 = $value['product_price'];
+                                                    $valprice22 = $value['special_price'];
+
+                                                    if (($valprice12 - $valprice22) < $valprice12) {
+                                                        $protot2[] = $valprice22;
+                                                    } else {
+                                                        $protot2[] = $valprice12;
+                                                    }
+                                                }
+
+                                                $total2 = array_sum($protot2);
+
+                                                $_SESSION['total'] = $total2;
+                                            }
+                                            ?>
                                             <span class="total-title">Subtotal: </span>
                                             <span class="total-price">
                                                 <span class="Price-amount">
-                                                    
-                                                         <?php
-                                                        if(isset($_SESSION['total'])){
-                                                         echo $_SESSION['total'];}
-                                                         
-                                                        //  if(isset($_SESSION['qtyarr'])){
 
-                                                        //         $_SESSION['total1']=$total;
-                                                                
-                                                        //         echo $total;
-                                                                
-                                                        //  }
-                                                        //  elseif(isset($total)) {
-                                                        //         echo $total;
-                                                        //     } else{
-                                                        //     echo $total2;
-                                                        // }
-                                                        // }
-                                                        //  $total2 = array_sum($protot2);
-                                                        //  $_SESSION['total']=$total2;
-                                                        //  if(isset($_SESSION['qtyarr'])){
+                                                    <?php
+                                                    if (!isset($_SESSION['totalnew'])) {
+                                                        if (isset($_SESSION['total'])) {
+                                                            if (isset($_SESSION['new_user'])) {
+                                                                $sale = 0.5 * $_SESSION['total'];
+                                                                echo "$ $sale <small style='color: #32CD32;'>After Sale!</small>";
+                                                            } else {
+                                                                echo "$ {$_SESSION['total']}";
+                                                            }
+                                                        }
+                                                    } elseif (isset($_SESSION['new_user'])) {
+                                                        $sale = 0.5 * $_SESSION['totalnew'];
+                                                        echo "$ $sale <small style='color: #32CD32;'>After Sale!</small>";
+                                                    } else {
+                                                        echo "$ {$_SESSION['totalnew']}";
+                                                    }
 
-                                                        //     $_SESSION['total1']=$total;
-                                                        //     echo $total;
-                                                        //  } else{
-                                                        //  $total2 = array_sum($protot2);
-                                                        //  $_SESSION['total']=$total2;
-                                                        //  echo $total2;
-                                                        // }
+
+
+                                                    if (!isset($_SESSION['total'])) {
+                                                        echo  "Your cart is empty";
+                                                    }
+
+                                                    //  if(isset($_SESSION['qtyarr'])){
+
+                                                    //         $_SESSION['total1']=$total;
+
+                                                    //         echo $total;
+
                                                     //  }
-                                                     else {
-                                                        echo "Your cart is empty";
-                                                    } 
+                                                    //  elseif(isset($total)) {
+                                                    //         echo $total;
+                                                    //     } else{
+                                                    //     echo $total2;
+                                                    // }
+                                                    // }
+                                                    //  $total2 = array_sum($protot2);
+                                                    //  $_SESSION['total']=$total2;
+                                                    //  if(isset($_SESSION['qtyarr'])){
+
+                                                    //     $_SESSION['total1']=$total;
+                                                    //     echo $total;
+                                                    //  } else{
+                                                    //  $total2 = array_sum($protot2);
+                                                    //  $_SESSION['total']=$total2;
+                                                    //  echo $total2;
+                                                    // }
+                                                    //  }
+
                                                     ?>
-                                                    
+
 
                                                 </span>
                                             </span>
@@ -223,7 +241,7 @@ $_SESSION['page'] = $pageurl;
                                 </a>
                                
                             </div> -->
-                            
+
                         </div>
                     </div>
                 </div>

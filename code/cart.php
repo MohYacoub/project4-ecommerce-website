@@ -36,8 +36,8 @@ if(isset($_POST['calsub'])){
     //     $_SESSION['qtyarr'] = $qty1;
     // }
     // array_push($_SESSION['qtyarr'], $qty);
-    $total = array_sum($protot);
-    $_SESSION['total']=$total;
+    $totalnew = array_sum($protot);
+    $_SESSION['totalnew']= $totalnew;
 }
 
 ?>
@@ -116,7 +116,7 @@ include('partails/public_header.php'); //from line 8
                                                   
                                                     <a type="submit" class="btn-number qtyminus quantity-minus" href="#">-</a>
                                                     <input name="<?php echo (int)$value['product_id']?>" type="text" data-step="1" data-min="0" value="<?php
-                                                    if(isset($_SESSION['qtyarr'])){
+                                                    if(isset($_SESSION['qtyarr'][$key])){
                                                       echo $_SESSION['qtyarr'][$key];     
                                                     }  else {
                                                         echo 1;
@@ -159,26 +159,32 @@ include('partails/public_header.php'); //from line 8
                                                
                                             <button  name="calsub" type="submit" class="button btn-cart-to-checkout">
                                                 Calculate Total 
-                                            </button>
-
-                                                  
-                                                               	
-															
+                                            </button>			
 														
                                                 <span class="total-price">
-                                                                
-                                               
                                                             <?php 
-                                                        //     if(!isset($total)){
-                                                        //     echo $total2 ;
-                                                        // }else{
-                                                        //     if(isset($_POST['calsub'])){
-                                                              
-                                                        //         echo $total ;
-                                                                
-                                                        //     }
-                                                        // }
-                                                        echo "$ {$_SESSION['total']}";
+                                                   
+                                                   if (!isset($_SESSION['totalnew'])) {
+                                                    if (isset($_SESSION['total'])) {
+                                                        if (isset($_SESSION['new_user'])) {
+                                                            $sale = 0.5 * $_SESSION['total'];
+                                                            echo "$ $sale <small style='color: #32CD32;'>After Sale!</small>";
+                                                        } else {
+                                                            echo "$ {$_SESSION['total']}";
+                                                        }
+                                                    }
+                                                } elseif (isset($_SESSION['new_user'])) {
+                                                    $sale = 0.5 * $_SESSION['totalnew'];
+                                                    echo "$ $sale <small style='color: #32CD32;'>After Sale!</small>";
+                                                } else {
+                                                    echo "$ {$_SESSION['totalnew']}";
+                                                }
+
+
+                                                         if(!isset($_SESSION['total'])){
+                                                            echo  "Your cart is empty";
+                                                         }
+                                                        
                                                            
                                                              ?> 
 														</span>

@@ -82,13 +82,14 @@ $cat_row = mysqli_fetch_assoc($cat_result);
                             </div>
                             <div class="group-info">
                                 <div class="price">
-                                    <del style="color:red;">
-                                    <?php echo "{$pro_row['pro_price']}" ?>
-                                    </del>
+                                   
                                     <ins style="color:#71c0ef; font-size:3rem;">
-                                    <?php echo "{$pro_row['special_price']}" ?>
+                                    <?php echo "$ {$pro_row['special_price']}" ?>
                                       
                                     </ins>
+                                    <del style="color:#868686;">
+                                    <?php echo "$ {$pro_row['pro_price']}" ?>
+                                    </del>
                                 </div>
                             </div>
                             <div class="product-details-description">

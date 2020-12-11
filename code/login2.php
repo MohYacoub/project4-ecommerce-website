@@ -4,30 +4,36 @@ include('admin/partials/connection.php');
 
 ?>
 <?php
-$query2  = "SELECT * FROM customers";
-$result2 = mysqli_query($conn,$query2);
-if(isset($_POST['submit'])){
-	
-	$username = strtolower($_POST['username']);
+// $query2  = "SELECT * FROM customers  ";
+// $result2 = mysqli_query($conn, $query2);
+if (isset($_POST['submit'])) {
+	$email = strtolower($_POST['username']);
 	$pass = $_POST['password'];
-	if(!empty($username) && !empty($pass)){
-    while($row2 = mysqli_fetch_assoc($result2)){
-        if($username == $row2["cust_name"] && $pass== $row2["cust_password"] ){
-			$_SESSION['pass'] = $pass;
-			$_SESSION['user'] = $username;
-			$_SESSION['cust_id'] = $row2['cust_id'];
-			$_SESSION['phone'] = $row2['cust_phone'];
-			$_SESSION['address'] = $row2['cust_address'];
-            header("Location: checkout.php");}
-            else{
+
+
+
+	if (!empty($email) && !empty($pass)) {
+		$cust_query = "SELECT * FROM customers WHERE cust_email ='$email'";
+		$cust_result = mysqli_query($conn, $cust_query);
+		$cust_row = mysqli_fetch_assoc($cust_result);
+		// while ($row2 = mysqli_fetch_assoc($result2)) {
+			if ($email == $cust_row["cust_email"] && $pass == $cust_row["cust_password"]) {
+
+				$_SESSION['pass'] = $pass;
+				$_SESSION['user'] = $cust_row['cust_name'];
+				$_SESSION['cust_id'] =  $cust_row['cust_id'];
+				$_SESSION['phone'] =  $cust_row['cust_phone'];
+				$_SESSION['address'] = $cust_row['cust_address'];
+				$_SESSION['email'] = $cust_row['cust_email'];
+				header("Location: checkout.php");
+			} else {
 				$errorcheck = "Incrorect Username Or Password";
-            }
+			// }
 		}
-	}
-	else {
+	} else {
 		$errorcheck = "Please Fill the empty field";
 	}
-	}
+}
 
 ?>
 
@@ -37,8 +43,8 @@ if(isset($_POST['submit'])){
 <?php
 include('partails/public_head.php');
 include('partails/public_header.php');
-?> 
-	<div>
+?>
+<div>
 	<div class="main-content main-content-login">
 		<div class="container">
 			<div class="row">
@@ -68,10 +74,12 @@ include('partails/public_header.php');
 										<h5 class="title-login">Login your Account</h5>
 
 										<form class="login" method="post">
-										<?php if(isset($errorcheck)){echo "<div class='alert alert-danger'> $errorcheck </div>";}?>
+											<?php if (isset($errorcheck)) {
+												echo "<div class='alert alert-danger'> $errorcheck </div>";
+											} ?>
 											<p class="form-row form-row-wide">
-												<label class="text">Username</label>
-												<input name="username"title="username" type="text" placeholder="Username" class="input-text">
+												<label class="text">Email</label>
+												<input name="username" title="username" type="text" placeholder="Username" class="input-text">
 											</p>
 											<p class="form-row form-row-wide">
 												<label class="text">Password</label>
@@ -81,20 +89,20 @@ include('partails/public_header.php');
 												<input name="submit" type="submit" class="button-submit" value="login">
 
 											</p>
-											
+
 										</form>
 									</div>
 								</div>
-								
+
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-    </div>
-</div>
+	</div>
 	<?php
 
-include('partails/public_footer.php');
+	include('partails/public_footer.php');
 
-?>
+	?>

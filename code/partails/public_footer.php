@@ -7,7 +7,7 @@
                         <div class="single-img">
                             <a href="index-2.html"><img src="assets/images/logo.png" alt="img"></a>
                         </div>
-                        <div class="desc-footer">
+                        <div class="desc-footer text-justify">
                             <span>T</span>At  TOYZEE  it is our belief that children are the future. In order to create the best possible future for them, we must give them the best possible start.
 
 TOYZEE  products not only encourage and stimulate young minds, we also protect their growing bodies with ergonomically sound designs. We only Sale the finest quality, ethically sourced and sustainable materials to ensure that the 
@@ -37,9 +37,9 @@ environment our children grow up in, is as happy and healthy as they are..
                         </ul>
                     </div>
                 </div>
-                <div class="box-footer col-xs-12 col-sm-6 col-md-6 col-lg-2">
+                <div class="box-footer col-xs-12 col-sm-6 col-md-6 col-lg-3">
                     <div class="moorabi-custommenu default">
-                        <h2 class="widgettitle">  Blogs</h2>
+                        <h2 class="widgettitle"> Related Websites</h2>
                         <ul class="menu">
                             <li class="menu-item">
                                 <a href="https://www.nidolove.com">Raise Happy Children</a>
@@ -61,18 +61,34 @@ environment our children grow up in, is as happy and healthy as they are..
                 </div>
 
 
-                <div class="box-footer col-xs-12 col-sm-6 col-md-6 col-lg-4">
+                <div class="box-footer col-xs-12 col-sm-6 col-md-6 col-lg-3">
                         <div class="moorabi-newsletter style1">
-                            <div class="newsletter-head"> 
+                            <div class="newsletter-head "> 
 
 
-<h3> why start this business?</h3>
-                            
+                        <h3> why we start this business?</h3>
+                        <div class="text-justify">
                          The idea of our site was launched out of our belief that education is a right for all children. That is why we turned to targeting children in general and autism children in particular. We are a youth team from Jordan. Our slogan is partners in education.
-                  
-                               
                             </div>
-                            
+                            <div class="moorabi-socials">
+                        <ul class="socials">
+                            <li>
+                                <a href="https://www.facebook.com/mohammad.yacoub94/" class="social-item" target="_blank">
+                                    <i class="icon fa fa-facebook"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://www.facebook.com/mohammad.yacoub94/" class="social-item" target="_blank">
+                                    <i class="icon fa fa-twitter"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://www.facebook.com/mohammad.yacoub94/" class="social-item" target="_blank">
+                                    <i class="icon fa fa-instagram"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                         </div>
                     </div>
                    
@@ -96,25 +112,7 @@ environment our children grow up in, is as happy and healthy as they are..
                     </div> -->
 
                     
-                    <div class="moorabi-socials">
-                        <ul class="socials">
-                            <li>
-                                <a href="#" class="social-item" target="_blank">
-                                    <i class="icon fa fa-facebook"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="social-item" target="_blank">
-                                    <i class="icon fa fa-twitter"></i>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="social-item" target="_blank">
-                                    <i class="icon fa fa-instagram"></i>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                  
                 </div>
             </div>
             <div class="row">

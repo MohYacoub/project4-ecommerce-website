@@ -52,6 +52,7 @@ if (isset($_POST["submit"])) {
 		                                 VALUES ('$name','$password','$email','$phone',' $address', '$cust_image' )";
 				mysqli_query($conn, $query);
 				$_SESSION['created_cust'] = "The Registration process completed successfully! '<br>' please login here ";
+				$_SESSION['new_user'] = $name;
 				header("location: login.php");
 			}
 

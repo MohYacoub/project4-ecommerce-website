@@ -26,28 +26,28 @@ if (isset($_POST['submit_create_customer'])) {
         $cust_address     = $_POST['cust_address'];
         $cust_address     = mysqli_real_escape_string($conn , $cust_address) ; 
 
-        // get image data
-        $image_name = $_FILES['cust_image']['name'];
-        $tmp_name   = $_FILES['cust_image']['tmp_name'];
-        $path       = 'images/customer_images/';
+        // // get image data
+        // $image_name = $_FILES['cust_image']['name'];
+        // $tmp_name   = $_FILES['cust_image']['tmp_name'];
+        // $path       = 'images/customer_images/';
 
-        // move image to folder
-        move_uploaded_file($tmp_name, $path . $image_name);
+        // // move image to folder
+        // move_uploaded_file($tmp_name, $path . $image_name);
 
-        // choose photo 
-        if ($image_name) {
-            $cust_image = $path . $image_name;
-        } else {
-            $cust_image = 'images/admin_images/noimage.jpg';
-        }
+        // // choose photo 
+        // if ($image_name) {
+        //     $cust_image = $path . $image_name;
+        // } else {
+        //     $cust_image = 'images/admin_images/noimage.jpg';
+        // }
 
         $cust_email_query = " SELECT * FROM customers WHERE cust_email = '$cust_email' ";
         $cust_email_query_run = mysqli_query($conn, $cust_email_query);
         if (mysqli_num_rows($cust_email_query_run) > 0) {
             $repeated_email = "* E-mail already taken, please try another one!";
         } else {
-            $query = "INSERT INTO customers (cust_name, cust_password , cust_email , cust_phone , cust_address  , cust_image )
-              values('$cust_name','$cust_password' , '$cust_email' , '$cust_phone' , '$cust_address'  , '$cust_image')";
+            $query = "INSERT INTO customers (cust_name, cust_password , cust_email , cust_phone , cust_address   )
+              values('$cust_name','$cust_password' , '$cust_email' , '$cust_phone' , '$cust_address'  )";
             mysqli_query($conn, $query);
             $_SESSION['created_customer'] = "The Customer added successfully "; 
             // header("location: manage_customer.php"); // if the rows of table repeated it self use this statement
@@ -139,7 +139,7 @@ if (isset($_POST['submit_create_customer'])) {
                                         <input type="password" id="password" name="cust_password" placeholder="Password" class="form-control">
                                     </div>
                                 </div>
-                                <div class="row form-group">
+                                <!-- <div class="row form-group">
                                     <div class="col col-md-3">
                                         <label for="file-input" class=" form-control-label">Upload your photo <small style="color: red;"> *optional</small> </label>
                                     </div>
@@ -147,7 +147,7 @@ if (isset($_POST['submit_create_customer'])) {
                                         <input type="file" id="file-input" name="cust_image" class="form-control-file" value="admin_image">
                                     </div>
 
-                                </div>
+                                </div> -->
                                 <button id="payment-button" type="submit" class="btn btn-lg bg-success btn-block text-white" name="submit_create_customer">
 
                                     <span id="payment-button-amount">Create</span>
@@ -177,7 +177,7 @@ if (isset($_POST['submit_create_customer'])) {
                                 <th> Password</th>
                                 <th> Phone</th>
                                 <th> Address</th>
-                                <th> Image</th>
+                                <!-- <th> Image</th> -->
                                 <th>Edit</th>
                                 <th>Delete</th>
                             </tr>
@@ -196,7 +196,7 @@ if (isset($_POST['submit_create_customer'])) {
                                 echo "<td>{$row['cust_password']}</td>";
                                 echo "<td>{$row['cust_phone']}</td>";
                                 echo "<td>{$row['cust_address']}</td>";
-                                echo "<td><img src='{$row['cust_image']}'></td>";
+                                // echo "<td><img src='{$row['cust_image']}'></td>";
                                 echo "<td><a href='edit_customer.php?id={$row['cust_id']}' class='btn btn-primary'>Edit</a></td>";
                                 echo "<td><a href='delete_customer.php?id={$row['cust_id']}' class='btn btn-danger'>Delete</a></td>";
                                 echo "</tr>";

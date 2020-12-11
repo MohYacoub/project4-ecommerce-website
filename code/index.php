@@ -8,28 +8,27 @@ include('admin/partials/connection.php');
 <!-- start coding for cart  -->
 <?php
 
-if(isset($_GET['cartid'])){
+if (isset($_GET['cartid'])) {
 
- $cart_query="SELECT * FROM products WHERE pro_id ={$_GET['cartid']}";   
- $cart_result=mysqli_query($conn, $cart_query);
- $cart_row=mysqli_fetch_assoc($cart_result);
+    $cart_query = "SELECT * FROM products WHERE pro_id ={$_GET['cartid']}";
+    $cart_result = mysqli_query($conn, $cart_query);
+    $cart_row = mysqli_fetch_assoc($cart_result);
 
- $new_item = array(
-    "product_id" => $cart_row['pro_id'],
-    "product_image" => $cart_row['pro_image'],
-    "product_name"  => $cart_row['pro_name'],
-    "product_price" => $cart_row['pro_price'],
-    "special_price" => $cart_row['special_price']
-);
+    $new_item = array(
+        "product_id" => $cart_row['pro_id'],
+        "product_image" => $cart_row['pro_image'],
+        "product_name"  => $cart_row['pro_name'],
+        "product_price" => $cart_row['pro_price'],
+        "special_price" => $cart_row['special_price']
+    );
 
-if(!isset($_SESSION["cart"])){
-   $cart_items = array(); 
-   $_SESSION["cart"] = $cart_items;	
-}
-array_push($_SESSION["cart"], $new_item);
-$url = $_SESSION['page'];
-header("Location: $url");
-
+    if (!isset($_SESSION["cart"])) {
+        $cart_items = array();
+        $_SESSION["cart"] = $cart_items;
+    }
+    array_push($_SESSION["cart"], $new_item);
+    $url = $_SESSION['page'];
+    header("Location: $url");
 }
 
 include('partails/public_head.php');
@@ -43,7 +42,37 @@ include('partails/public_header.php');
 
         <div class="home-slider fullwidth rows-space-60">
             <div class="slider-owl owl-slick equal-container nav-center equal-container" data-slick='{"autoplay":true, "autoplaySpeed":10000, "arrows":true, "dots":true, "infinite":true, "speed":800, "rows":1}' data-responsive='[{"breakpoint":"2000","settings":{"slidesToShow":1}}]'>
-                <div class="slider-item style4">
+                
+
+            <?php
+
+if (isset($_SESSION['new_user'])) {
+
+?>
+<div class="slider-item style3">
+        <div class="slider-inner equal-element">
+            <div class="container">
+                <div class="slider-infor">
+                    
+                    <h1 class="title-small">
+                    congratulation!
+                    </h1>
+                    <h1 style="color:#ed71a3" class="title-big">
+                        <?php echo $_SESSION['new_user'];  ?>
+                    </h1>
+                    <h5 class="title-big">
+                     you get 50% sale on your order !
+                    </h5>
+
+                    <a href="grid_products.php" class="button btn-shop-the-look bgroud-style">Shop now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php } ?>
+
+
+<div class="slider-item style4">
                     <div class="slider-inner equal-element">
                         <div class="container">
                             <div class="slider-infor">
@@ -107,8 +136,44 @@ include('partails/public_header.php');
                         </div>
                     </div>
                 </div>
+
+               
+
             </div>
         </div>
+
+          <?php
+
+        if (!isset($_SESSION['new_user'])) {
+        ?>
+        <div class="banner-wrapp rows-space-65">
+            <div class="container">
+                <div class="banner">
+                    <div class="item-banner style17">
+                        <div class="inner">
+                            <div class="banner-content">
+                                <h3 class="title">Welcome To Our Website!</h3>
+                                <br/>
+                                <a href="register.php" class="button btn-shop-now">Register NOW!</a>
+                                <br/>
+                                
+                                <div class="description">
+                                <br/> TO Get  <br/>
+                                </div>
+                                <div class="banner-price">
+                                  
+                                 <span class="number-price"> 50% SALE</span>
+                                </div>
+                            
+                             
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <?php } ?>
 
 
         <!-- category section start here -->
@@ -152,6 +217,124 @@ include('partails/public_header.php');
             </div>
         </div>
         <!-- category section end here -->
+
+
+
+        <div class="moorabi-product layout1">
+            <div class="container">
+                <div class="container-wapper">
+                    <div class="head">
+                        <h3 class="title">SEARCH BY AGE</h3>
+                        <div class="subtitle">Let’s Shop our Products</div>
+                    </div>
+                    <div class="product-list-owl owl-slick equal-container nav-center-left" data-slick='{"autoplay":false, "autoplaySpeed":1000, "arrows":true, "dots":false, "infinite":true, "speed":800,"infinite":false}' data-responsive='[{"breakpoint":"2000","settings":{"slidesToShow":3}},{"breakpoint":"1200","settings":{"slidesToShow":2}},{"breakpoint":"992","settings":{"slidesToShow":1}},{"breakpoint":"768","settings":{"slidesToShow":2}},{"breakpoint":"481","settings":{"slidesToShow":1}}]'>
+                        <div class="product-item style-1 product-type-variable">
+                            <div class="product-inner equal-element">
+
+                                <div class="product-thumb">
+                                    <div class="thumb-inner">
+                                        <a href="grid_products.php?yrsid=1.5">
+                                            <img src="assets/images/age1.png" alt="img">
+                                        </a>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="product-item style-1">
+                            <div class="product-inner equal-element">
+
+                                <div class="product-thumb">
+                                    <div class="thumb-inner">
+                                        <a href="grid_products.php?yrsid=2.5">
+                                            <img src="assets/images/age2.png" alt="img">
+                                        </a>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="product-item style-1">
+                            <div class="product-inner equal-element">
+
+                                <div class="product-thumb">
+                                    <div class="thumb-inner">
+                                        <a href="grid_products.php?yrsid=3.5">
+                                            <img src="assets/images/age3.png" alt="img">
+                                        </a>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="product-item style-1 product-type-variable">
+                            <div class="product-inner equal-element">
+
+                                <div class="product-thumb">
+                                    <div class="thumb-inner">
+                                        <a href="grid_products.php?yrsid=4.5">
+                                            <img src="assets/images/age4.png" alt="img">
+                                        </a>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="product-item style-1 product-type-variable">
+                            <div class="product-inner equal-element">
+
+                                <div class="product-thumb">
+                                    <div class="thumb-inner">
+                                        <a href="grid_products.php?yrsid=5.5">
+                                            <img src="assets/images/age5.png" alt="img">
+                                        </a>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="product-item style-1 product-type-variable">
+                            <div class="product-inner equal-element">
+
+                                <div class="product-thumb">
+                                    <div class="thumb-inner">
+                                        <a href="grid_products.php?yrsid=6.5">
+                                            <img src="assets/images/age6.png" alt="img">
+                                        </a>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="product-item style-1 product-type-variable">
+                            <div class="product-inner equal-element">
+
+                                <div class="product-thumb">
+                                    <div class="thumb-inner">
+                                        <a href="grid_products.php?yrsid=6.5">
+                                            <img src="assets/images/age7.png" alt="img">
+                                        </a>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <h3 class="custommenu-title-blog">
+        </h3>
+
 
         <div class="moorabi-tabs  default rows-space-40">
             <div class="container">
@@ -244,45 +427,45 @@ include('partails/public_header.php');
                                 while ($new_row = mysqli_fetch_assoc($result_new)) {
                                 ?>
 
-                                <li class="product-item  col-lg-3 col-md-4 col-sm-6 col-xs-6 col-ts-12 style-1">
-                                            <div class="product-inner equal-element">
-                                                <div class="product-top">
-                                                    <div class="flash">
-                                                        <span class="onnew">
-                                                            <span class="text">
-                                                                NEW
-                                                            </span>
+                                    <li class="product-item  col-lg-3 col-md-4 col-sm-6 col-xs-6 col-ts-12 style-1">
+                                        <div class="product-inner equal-element">
+                                            <div class="product-top">
+                                                <div class="flash">
+                                                    <span class="onnew">
+                                                        <span class="text">
+                                                            NEW
                                                         </span>
-                                                    </div>
-                                                </div>
-                                                <div class="product-thumb">
-                                                    <div class="thumb-inner">
-                                                        <a href="<?php echo "productdetails.php?proid={$new_row['pro_id']}" ?>">
-                                                            <img src="admin/<?php echo $new_row['pro_image']; ?>" alt="<?php echo $pro_row['pro_name']; ?>">
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                                <div class="product-info">
-                                                    <h5 class="product-name product_title">
-                                                        <a href="<?php echo "productdetails.php?proid={$new_row['pro_id']}" ?>"><?php echo $new_row['pro_name'] ?></a>
-                                                    </h5>
-                                                    <div class="group-info">
-                                                        <div class="price">
-                                                            <del>
-                                                                <?php echo $new_row['pro_price'] ?>
-                                                            </del>
-                                                            <ins>
-                                                                <?php echo $new_row['special_price'] ?>
-                                                            </ins>
-                                                        </div>
-                                                        <div class="button">
-                                                            <a href="<?php echo "index.php?cartid={$new_row['pro_id']}" ?> " class="add_to_cart_button"><i class="fa fa-cart-plus"></i> ADD TO CART </a>
-                                                        </div>
-
-                                                    </div>
+                                                    </span>
                                                 </div>
                                             </div>
-                                        </li>
+                                            <div class="product-thumb">
+                                                <div class="thumb-inner">
+                                                    <a href="<?php echo "productdetails.php?proid={$new_row['pro_id']}" ?>">
+                                                        <img src="admin/<?php echo $new_row['pro_image']; ?>" alt="<?php echo $pro_row['pro_name']; ?>">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="product-info">
+                                                <h5 class="product-name product_title">
+                                                    <a href="<?php echo "productdetails.php?proid={$new_row['pro_id']}" ?>"><?php echo $new_row['pro_name'] ?></a>
+                                                </h5>
+                                                <div class="group-info">
+                                                    <div class="price">
+                                                        <del>
+                                                            <?php echo $new_row['pro_price'] ?>
+                                                        </del>
+                                                        <ins>
+                                                            <?php echo $new_row['special_price'] ?>
+                                                        </ins>
+                                                    </div>
+                                                    <div class="button">
+                                                        <a href="<?php echo "index.php?cartid={$new_row['pro_id']}" ?> " class="add_to_cart_button"><i class="fa fa-cart-plus"></i> ADD TO CART </a>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
 
 
                                 <?php
@@ -356,105 +539,10 @@ include('partails/public_header.php');
             </div>
         </div>
 
-        <div class="moorabi-product layout1">
-            <div class="container">
-                <div class="container-wapper">
-                    <div class="head">
-                        <h3 class="title">SERCH BY YEARS</h3>
-                        <div class="subtitle">Let’s Shop our Categories</div>
-                    </div>
-                    <div class="product-list-owl owl-slick equal-container nav-center-left" data-slick='{"autoplay":false, "autoplaySpeed":1000, "arrows":true, "dots":false, "infinite":true, "speed":800,"infinite":false}' data-responsive='[{"breakpoint":"2000","settings":{"slidesToShow":3}},{"breakpoint":"1200","settings":{"slidesToShow":2}},{"breakpoint":"992","settings":{"slidesToShow":1}},{"breakpoint":"768","settings":{"slidesToShow":2}},{"breakpoint":"481","settings":{"slidesToShow":1}}]'>
-                        <div class="product-item style-1 product-type-variable">
-                            <div class="product-inner equal-element">
-                               
-                                <div class="product-thumb">
-                                    <div class="thumb-inner">
-                                        <a href="#">
-                                            <img src="assets/images/1.png" alt="img">
-                                        </a>
-                                       
-                                    </div>
-                                </div>
-                               
-                            </div>
-                        </div>
-                        <div class="product-item style-1">
-                            <div class="product-inner equal-element">
-                               
-                            <div class="product-thumb">
-                                    <div class="thumb-inner">
-                                        <a href="#">
-                                            <img src="assets/images/2.png" alt="img">
-                                        </a>
-                                    </div>
-                                </div>
-                               
-                            </div>
-                        </div>
-                        <div class="product-item style-1">
-                            <div class="product-inner equal-element">
-                               
-                            <div class="product-thumb">
-                                    <div class="thumb-inner">
-                                        <a href="#">
-                                            <img src="assets/images/1.png" alt="img">
-                                        </a>
-                                       
-                                    </div>
-                                </div>
-                               
-                            </div>
-                        </div>
-                        <div class="product-item style-1 product-type-variable">
-                            <div class="product-inner equal-element">
-                               
-                            <div class="product-thumb">
-                                    <div class="thumb-inner">
-                                        <a href="#">
-                                            <img src="assets/images/2.png" alt="img">
-                                        </a>
-                                       
-                                    </div>
-                                </div>
-                                
-                            </div>
-                        </div>
-                        <div class="product-item style-1 product-type-variable">
-                            <div class="product-inner equal-element">
-                               
-                            <div class="product-thumb">
-                                    <div class="thumb-inner">
-                                        <a href="#">
-                                            <img src="assets/images/1.png" alt="img">
-                                        </a>
-                                       
-                                    </div>
-                                </div>
-                               
-                            </div>
-                        </div>
-                        <div class="product-item style-1 product-type-variable">
-                             <div class="product-inner equal-element">
-                              
-                            <div class="product-thumb">
-                                    <div class="thumb-inner">
-                                        <a href="#">
-                                            <img src="assets/images/2.png" alt="img">
-                                        </a>
-                                       
-                                    </div>
-                                </div>
-                               
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
 
 
-        <div class="moorabi-blog-wraap default">
+        <!-- <div class="moorabi-blog-wraap default">
             <div class="container">
                 <h3 class="custommenu-title-blog">
                     Our Latest News
@@ -638,7 +726,7 @@ include('partails/public_header.php');
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 </div>
 

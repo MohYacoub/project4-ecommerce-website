@@ -28,20 +28,20 @@ if (isset($_POST['submit_edit_customer'])) {
         $cust_address     = $_POST['cust_address'];
         $cust_address     = mysqli_real_escape_string($conn , $cust_address) ; 
 
-        // get image data
-        $image_name = $_FILES['cust_image']['name'];
-        $tmp_name   = $_FILES['cust_image']['tmp_name'];
-        $path       = 'images/customer_images/';
+        // // get image data
+        // $image_name = $_FILES['cust_image']['name'];
+        // $tmp_name   = $_FILES['cust_image']['tmp_name'];
+        // $path       = 'images/customer_images/';
 
-        // move image to folder
-        move_uploaded_file($tmp_name, $path . $image_name);
+        // // move image to folder
+        // move_uploaded_file($tmp_name, $path . $image_name);
 
-        // choose photo 
-        if ($image_name) {
-            $cust_image = $path . $image_name;
-        } else {
-            $cust_image = 'images/admin_images/noimage.jpg';
-        }
+        // // choose photo 
+        // if ($image_name) {
+        //     $cust_image = $path . $image_name;
+        // } else {
+        //     $cust_image = 'images/admin_images/noimage.jpg';
+        // }
 
         $cust_email_query = " SELECT * FROM customers WHERE cust_email = '$cust_email' ";
         $cust_email_query_run = mysqli_query($conn, $cust_email_query);
@@ -55,13 +55,12 @@ if (isset($_POST['submit_edit_customer'])) {
                                        cust_password    = '$cust_password' ,
                                        cust_email       = '$cust_email'    ,
                                        cust_phone       = '$cust_phone'    ,
-                                       cust_address     = '$cust_address'  ,    
-                                       cust_image       = '$cust_image'    
+                                       cust_address     = '$cust_address'   
                 where cust_id = {$_GET['id']}";
 
             mysqli_query($conn, $query);
 
-            if (($cust_name == $row['cust_name']) && ($cust_password == $row['cust_password']) && ($cust_email == $row['cust_email']) && ($cust_phone == $row['cust_phone']) && ($cust_address == $row['cust_address']) && ($cust_image == $row['cust_image']) ) {
+            if (($cust_name == $row['cust_name']) && ($cust_password == $row['cust_password']) && ($cust_email == $row['cust_email']) && ($cust_phone == $row['cust_phone']) && ($cust_address == $row['cust_address'])  ) {
                 $_SESSION['edited_customer'] = "Nothing Edited !";
                 header("location:manage_customer.php");
             } else {
@@ -98,7 +97,7 @@ if (isset($_POST['submit_edit_customer'])) {
                                 <div class="form-group ">
                                     <div class="input-group">
                                     <?php
-                                echo "<img class='rounded mx-auto d-block' width='200' height='200' src='{$row['cust_image']}'>";
+                                // echo "<img class='rounded mx-auto d-block' width='200' height='200' src='{$row['cust_image']}'>";
                                 ?>
                                     </div>
                                 </div>
@@ -141,20 +140,20 @@ if (isset($_POST['submit_edit_customer'])) {
                                         <input type="password" id="password" name="cust_password" placeholder="Password" class="form-control" value="<?php echo $row['cust_password'] ?>">
                                     </div>
                                 </div>
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <div class="form-group">
                                         <label for="file-input" class=" form-control-label">Upload Image</label>
                                         <input type="file" id="file-input" name="cust_image" class="form-control-file">
                                     </div>
-                                </div>
+                                </div> -->
                                 <button id="payment-button" type="submit" class="btn btn-lg bg-success btn-block text-white" name="submit_edit_customer">
 
                                     <span id="payment-button-amount">Edit</span>
                                 </button>
-                                <button id="payment-button" type="submit" class="btn btn-lg bg-success btn-block text-white" name="cancel_edit_customer">
+                                <!-- <button id="payment-button" type="submit" class="btn btn-lg bg-success btn-block text-white" name="cancel_edit_customer">
 
                                     <a href="manage_customer.php" id="payment-button-amount">cancel</a>
-                                </button>
+                                </button> -->
                             </form>
                         </div>
                     </div>

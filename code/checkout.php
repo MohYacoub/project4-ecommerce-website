@@ -10,7 +10,14 @@ include('admin/partials/connection.php');
 
 if(isset($_SESSION['user'])){
     
-    $total = $_SESSION['total'];
+    if(!isset($_SESSION['totalnew'])){
+        if(isset($_SESSION['total'])){
+            $total = $_SESSION['total'];}
+            
+        }else{
+           $total = $_SESSION['totalnew'];
+             }
+
  
 $name = $_SESSION['user'];
 $id = $_SESSION['cust_id'];
@@ -126,7 +133,7 @@ include('partails/public_header.php');
                                 Payment Method
                             </h3>
                             <p class="form-row ">
-                                <p style="color: black;"> Cash on Delivary only available. <small style="color: #EA624C;">* additional service fee will be added to your order total. </small></p>
+                                <p style="color: black;"> Cash on Delivary only available. <small style="color: #EA624C;">* shipping free. </small></p>
 
                             </p>
                         </div>
@@ -191,7 +198,24 @@ include('partails/public_header.php');
                                 </span>
                                 <span class="total-price">
                                     <?php
-                                   echo "$ $total" ;
+                                  
+                                  if (!isset($_SESSION['totalnew'])) {
+                                    if (isset($_SESSION['total'])) {
+                                        if (isset($_SESSION['new_user'])) {
+                                            $sale = 0.5 * $_SESSION['total'];
+                                            echo "$ $sale <small style='color: #32CD32;'>After Sale!</small>";
+                                        } else {
+                                            echo "$ {$_SESSION['total']}";
+                                        }
+                                    }
+                                } elseif (isset($_SESSION['new_user'])) {
+                                    $sale = 0.5 * $_SESSION['totalnew'];
+                                    echo "$ $sale <small style='color: #32CD32;'>After Sale!</small>";
+                                } else {
+                                    echo "$ {$_SESSION['totalnew']}";
+                                }
+
+                                
                                     ?>
                                 </span>
                             </div>
